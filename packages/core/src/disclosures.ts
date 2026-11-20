@@ -28,17 +28,27 @@ const NEGATIVE_PATTERNS: RegExp[] = [
   /\bwritten\s+(?:entirely\s+)?by\s+(?:a\s+)?humans?\b/i,
 ];
 
-/** Phrasings that state AI assistance WAS used. */
-const AFFIRMATIVE_PATTERNS: RegExp[] = [
+/**
+ * Phrasings that name a concrete AI tool or an explicit "AI used: yes".
+ * These are the strongest affirmative signal and never lose to negation
+ * words elsewhere in the same text ("Tools: copilot; no AI review").
+ */
+const STRONG_AFFIRMATIVE_PATTERNS: RegExp[] = [
   /\b(?:ai|llm)\s+(?:assistance|usage|tools?|generated\s+\w+)\s*:\s*(?:yes|true|used)\b/i,
-  /\b(?:ai|llm)[-\s](?:assisted|generated|aided)\b/i,
   /\bgenerated\s+(?:with|by)\s+(?:an?\s+)?(?:ai|llm|chatgpt|copilot|claude|gemini|codex)\b/i,
   /\b(?:used|using|with)\s+(?:the\s+)?(?:ai|chatgpt|copilot|claude|gemini|codex|cursor|llm)\b/i,
   /\b(?:tools?|ai)\s*:\s*[^\n]*(?:chatgpt|copilot|claude|gemini|codex|cursor|llm)\b/i,
   /^\s*[-*]\s*\[[xX]\]\s*[^\n]{0,40}\b(?:ai|llm)\b[^\n]{0,60}(?:used|assisted|generated|yes)\b/m,
 ];
 
-const UNDERSTANDING_PATTERN = /\bI\s+(?:have\s+)?understand\b|\bunderstand(?:s|ing)?\s+(?:the|this)\s+(?:change|contribution|code)\b/i;
+/** All affirmative signals (strong + weak). Weak ones lose to negative phrasing. */
+const AFFIRMATIVE_PATTERNS: RegExp[] = [
+  ...STRONG_AFFIRMATIVE_PATTERNS,
+  /\b(?:ai|llm)[\s-](?:assisted|generated|aided)\b/i,
+];
+
+const UNDERSTANDING_PATTERN =
+  /\bI\s+(?:have\s+)?understand\b|\bunderstand(?:s|ing)?\s+(?:the|this)\s+(?:change|contribution|code)\b/i;
 const RESPONSIBILITY_PATTERN =
   /\bI\s+(?:take|accept)\s+responsibility\b|\bI\s+certify\b|\bon\s+behalf\s+of\b|\bsigned[- ]off\b|\bmy\s+(?:own\s+)?contribution\b/i;
 const ISSUE_PATTERN = /#\d{1,7}\b|\b(?:GH|issue)[-\s#]?\d{1,7}\b/i;
@@ -60,17 +70,25 @@ function extractFields(text: string): Partial<Record<DisclosureField, string>> {
 /**
  * Classifies a block of text. Returns undefined when the text makes no
  * recognizable statement about AI assistance.
+ *
+ * Precedence: strong affirmative signals (named tools) beat negative phrasings,
+ * which beat weak affirmative phrasings — so "Not AI-generated" stays negative
+ * while "Tools: copilot; no AI review" stays affirmative.
  */
 export function classifyStatement(
   text: string,
 ): { kind: 'affirmative' | 'negative'; fields: Partial<Record<DisclosureField, string>> } | undefined {
-  const affirmative = AFFIRMATIVE_PATTERNS.some((p) => p.test(text));
+  const strong = STRONG_AFFIRMATIVE_PATTERNS.some((p) => p.test(text));
   const negative = NEGATIVE_PATTERNS.some((p) => p.test(text));
-  if (affirmative) {
+  const weak = AFFIRMATIVE_PATTERNS.some((p) => p.test(text));
+  if (strong) {
     return { kind: 'affirmative', fields: extractFields(text) };
   }
   if (negative) {
     return { kind: 'negative', fields: {} };
+  }
+  if (weak) {
+    return { kind: 'affirmative', fields: extractFields(text) };
   }
   return undefined;
 }
@@ -150,9 +168,7 @@ export function hasResponsibilityClaim(body: string, commits: CommitInfo[] | und
   if (RESPONSIBILITY_PATTERN.test(body)) {
     return true;
   }
-  return (commits ?? []).some(
-    (c) => c.signoffs && c.signoffs.length > 0,
-  );
+  return (commits ?? []).some((c) => c.signoffs && c.signoffs.length > 0);
 }
 
 /** True when the text records an understanding claim. */

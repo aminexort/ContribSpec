@@ -143,15 +143,18 @@ function findUnknownKeys(value: unknown, level: string, path: string, out: KeyIs
 }
 
 function formatAjvError(error: ErrorObject): Diagnostic {
-  const path = error.instancePath.replace(/^\//, '').replace(/\//g, '.') || 'root';
+  const basePath = error.instancePath.replace(/^\//, '').replace(/\//g, '.');
+  const path = basePath || 'root';
   switch (error.keyword) {
-    case 'required':
+    case 'required': {
+      const missing = String(error.params.missingProperty);
       return {
         code: 'SCHEMA-MISSING',
-        path: `${path}.${String(error.params.missingProperty)}`,
-        message: `Missing required property "${String(error.params.missingProperty)}".`,
+        path: basePath ? `${basePath}.${missing}` : missing,
+        message: `Missing required property "${missing}".`,
         severity: 'error',
       };
+    }
     case 'const':
       return {
         code: 'SCHEMA-TYPE',

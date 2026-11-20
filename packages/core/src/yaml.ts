@@ -6,7 +6,32 @@
  * and custom tags are rejected: a policy is exactly one plain document.
  */
 
-import { parseDocument, LineCounter } from 'yaml';
+import { parseDocument, visit as yamlVisit, LineCounter, type Document } from 'yaml';
+
+/** Walks every node of a parsed YAML document (used for tag checks). */
+function visitInternal(doc: Document, onNode: (node: unknown) => void): void {
+  yamlVisit(doc, {
+    Node: (node, _key, _parent) => {
+      if (node !== null && typeof node === 'object') {
+        onNode(node);
+      }
+    },
+  });
+}
+
+/** YAML 1.2 core-schema tags a policy may use. Everything else is rejected. */
+const ALLOWED_TAGS = new Set([
+  'tag:yaml.org,2002:str',
+  'tag:yaml.org,2002:int',
+  'tag:yaml.org,2002:float',
+  'tag:yaml.org,2002:bool',
+  'tag:yaml.org,2002:null',
+  'tag:yaml.org,2002:map',
+  'tag:yaml.org,2002:seq',
+  'tag:yaml.org,2002:set',
+  'tag:yaml.org,2002:timestamp',
+  'tag:yaml.org,2002:binary',
+]);
 
 /** Hard cap on the policy file size (bytes). */
 export const MAX_POLICY_BYTES = 256 * 1024;
@@ -52,6 +77,26 @@ export function parseYamlSafely(text: string): YamlParseResult {
   });
 
   const warnings: string[] = [];
+  // Reject custom/unresolved YAML tags: a policy is plain data, never
+  // constructed objects (threat model T6).
+  for (const warn of doc.warnings) {
+    if (/unresolved tag/i.test(warn.message)) {
+      const tagMatch = /tag:\s*([^\s]+)|"([^"\n]+)"/.exec(warn.message);
+      const tag = tagMatch?.[1] ?? tagMatch?.[2] ?? 'unknown';
+      throw new YamlParseError(
+        `Custom YAML tag "${tag.replace(/[\u0000-\u001f]/g, '')}" is not allowed in policy files.`,
+      );
+    }
+  }
+  visitInternal(doc, (node) => {
+    const tag = (node as { tag?: string }).tag;
+    if (tag && !ALLOWED_TAGS.has(tag)) {
+      throw new YamlParseError(
+        `Custom YAML tag "${tag.replace(/[\u0000-\u001f]/g, '')}" is not allowed in policy files.`,
+      );
+    }
+  });
+
   const firstError = doc.errors[0];
   if (firstError) {
     const pos = firstError.pos?.[0] != null ? lineCounter.linePos(firstError.pos[0]) : undefined;

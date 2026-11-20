@@ -13,10 +13,11 @@
   ],
   "scripts": {
     "build": "tsc -b tsconfig.build.json && node scripts/build-action.mjs",
-    "clean": "tsc -b tsconfig.build.json --clean && rimraf-none || true",
+    "clean": "tsc -b tsconfig.build.json --clean",
     "typecheck": "tsc -b tsconfig.build.json --pretty",
-    "test": "npm run build && node --test dist-tests/tests",
-    "test:unit": "npm run build && node --test dist-tests/tests",
+    "test": "npm run build && node --test \"dist-tests/tests/*.test.js\"",
+    "test:only": "node --test \"dist-tests/tests/*.test.js\"",
+    "codegen": "node scripts/gen-schema-module.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

@@ -68,7 +68,7 @@ export function renderText(report: EvaluationReport): string {
   lines.push('');
   lines.push(
     'This report states what was checked and what evidence was found for the listed commit. ' +
-      'It does not judge authorship and does not certify that the contribution is safe or correct.',
+      'It makes no judgment about authorship, safety, or correctness of the contribution.',
   );
   return `${lines.join('\n')}\n`;
 }
@@ -154,7 +154,7 @@ export function renderMarkdown(report: EvaluationReport): string {
 
   lines.push(
     '> This report states what was checked and what evidence was found for the listed commit. ' +
-      'It does not judge authorship, and it does not certify that the contribution is safe or correct. ' +
+      'It makes no judgment about authorship, safety, or correctness of the contribution. ' +
       'Passing requirements mean the configured checks reported results — nothing more.',
   );
   return `${lines.join('\n')}\n`;

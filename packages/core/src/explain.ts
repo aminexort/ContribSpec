@@ -101,7 +101,7 @@ export function explainPolicy(policy: ResolvedPolicy, format: ExplainFormat = 't
         missingEvidenceMode: policy.enforcement.missingEvidence,
         rules,
         disclaimer:
-          'ContribSpec verifies declared requirements and their evidence. It does not detect authorship and does not certify that a contribution is safe or correct.',
+          'ContribSpec verifies declared requirements and their evidence. It makes no judgment about authorship, safety, or correctness of a contribution.',
       },
       null,
       2,
@@ -126,7 +126,7 @@ export function explainPolicy(policy: ResolvedPolicy, format: ExplainFormat = 't
     lines.push('');
     lines.push(
       '> These are the requirements this repository declared. ContribSpec checks them against available ' +
-        'evidence for a specific commit; it does not detect authorship and does not certify correctness.',
+        'evidence for a specific commit; it makes no judgment about authorship, safety, or correctness.',
     );
     return `${lines.join('\n')}\n`;
   }
@@ -146,7 +146,7 @@ export function explainPolicy(policy: ResolvedPolicy, format: ExplainFormat = 't
   }
   lines.push(
     'ContribSpec verifies declared requirements and their evidence for a specific commit. ' +
-      'It does not detect authorship and does not certify that a contribution is safe or correct.',
+      'It makes no judgment about authorship, safety, or correctness of the contribution.',
   );
   return `${lines.join('\n')}\n`;
 }

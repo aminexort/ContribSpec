@@ -127,8 +127,12 @@ function levelBehavior(level: RequirementLevelLike): 'evaluate' | 'waived' | 're
   }
 }
 
-function levelCap(level: RequirementLevelLike): Severity | undefined {
-  return level === 'encouraged' ? 'notice' : undefined;
+/**
+ * Violation severity for level-configured rules: "required" gates at error
+ * unless overridden; "encouraged" violations are informational (notice).
+ */
+function levelSeverity(level: RequirementLevelLike): Severity {
+  return level === 'required' ? 'error' : 'notice';
 }
 
 function levelNote(level: RequirementLevelLike): string {
@@ -170,7 +174,7 @@ function evaluatePullRequests(ctx: RuleContext, b: FindingBuilder): void {
         ? `Found a tracking issue reference in the pull request title or description.`
         : `No tracking issue reference was found in the pull request title or description.${levelNote(issueLevel)}`,
       {
-        cap: levelCap(issueLevel),
+        severity: levelSeverity(issueLevel),
         requirement: 'contributions.pull_requests.issue_reference',
       },
     );
@@ -403,11 +407,11 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         'ACC-001',
         'pass',
         'A responsibility claim (sign-off or statement) was found. Recorded as a claim; ContribSpec does not verify identity.',
-        { cap: levelCap(respLevel), data: { claimPresent: true } },
+        { severity: levelSeverity(respLevel), data: { claimPresent: true } },
       );
     } else if (!hasData) {
       b.emit('ACC-001', 'missing_evidence', 'Neither pull request description nor commit metadata was available.', {
-        cap: levelCap(respLevel),
+        severity: levelSeverity(respLevel),
       });
     } else {
       b.emit(
@@ -415,7 +419,7 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         'fail',
         `No responsibility claim (sign-off or statement) was found in the searched locations.${levelNote(respLevel)}`,
         {
-          cap: levelCap(respLevel),
+          severity: levelSeverity(respLevel),
           data: { claimPresent: false },
           ...(forced
             ? {
@@ -447,7 +451,7 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         ? 'An understanding claim was recorded. ContribSpec records the claim; it does not verify understanding.'
         : `No understanding claim was found in the searched locations.${levelNote(undLevel)}`,
       {
-        cap: levelCap(undLevel),
+        severity: levelSeverity(undLevel),
         data: { claimPresent: claimed },
         ...(forced && !claimed
           ? { remediation: 'State in the pull request description that you understand the change.' }
@@ -546,7 +550,7 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
           'pass',
           `All ${commits.length} commit(s) carry Signed-off-by trailers. Recorded as claims; identity is not verified here.`,
           {
-            cap: levelCap(dcoLevel),
+            severity: levelSeverity(dcoLevel),
             data: { commits: commits.length, unsigned: 0 },
           },
         );
@@ -556,19 +560,19 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
           'fail',
           `${unsigned.length} of ${commits.length} commit(s) lack Signed-off-by trailers.`,
           {
-            cap: levelCap(dcoLevel),
+            severity: levelSeverity(dcoLevel),
             data: { commits: commits.length, unsigned: unsigned.length },
           },
         );
       }
     } else if (dcoPass) {
       b.emit('CMP-001', 'pass', `DCO evidence "${dcoPass.name}" reports success for commit ${subject.headSha}.`, {
-        cap: levelCap(dcoLevel),
+        severity: levelSeverity(dcoLevel),
         evidenceRefs: [dcoPass.id ?? ''],
       });
     } else if (dcoFail) {
       b.emit('CMP-001', 'fail', `DCO evidence "${dcoFail.name}" reports failure for commit ${subject.headSha}.`, {
-        cap: levelCap(dcoLevel),
+        severity: levelSeverity(dcoLevel),
         evidenceRefs: [dcoFail.id ?? ''],
       });
     } else {
@@ -576,7 +580,7 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
         'CMP-001',
         'missing_evidence',
         'Commit metadata was unavailable and no DCO evidence was found for this commit.',
-        { cap: levelCap(dcoLevel) },
+        { severity: levelSeverity(dcoLevel) },
       );
     }
   }
@@ -594,12 +598,12 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
     const fail = claEvidence.find((e) => e.status === 'fail');
     if (pass) {
       b.emit('CMP-002', 'pass', `CLA evidence "${pass.name}" reports success for commit ${subject.headSha}.`, {
-        cap: levelCap(claLevel),
+        severity: levelSeverity(claLevel),
         evidenceRefs: [pass.id ?? ''],
       });
     } else if (fail) {
       b.emit('CMP-002', 'fail', `CLA evidence "${fail.name}" reports failure for commit ${subject.headSha}.`, {
-        cap: levelCap(claLevel),
+        severity: levelSeverity(claLevel),
         evidenceRefs: [fail.id ?? ''],
       });
     } else {
@@ -607,7 +611,7 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
         'CMP-002',
         'missing_evidence',
         'No CLA evidence was found for this commit. If the project uses a CLA bot, ensure it reports on the head commit.',
-        { cap: levelCap(claLevel) },
+        { severity: levelSeverity(claLevel) },
       );
     }
   }
