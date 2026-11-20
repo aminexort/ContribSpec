@@ -46,6 +46,8 @@ const KNOWN_KEYS: Record<string, string[]> = {
   compliance: ['dco', 'cla', 'license_confirmation'],
   enforcement: ['default_mode', 'missing_evidence', 'severity_overrides'],
   metadata: ['description', 'maintainers', 'last_reviewed'],
+  // severity_overrides keys are rule ids, checked by schema pattern instead.
+  severity_overrides: [],
 };
 
 const NESTED_KEY_MAP: Record<string, string> = {
@@ -124,11 +126,18 @@ function findUnknownKeys(value: unknown, level: string, path: string, out: KeyIs
       continue;
     }
     const childPath = path ? `${path}.${key}` : key;
+    if (level === 'severity_overrides') {
+      // Keys here are rule ids; the schema pattern validates their shape.
+      continue;
+    }
     if (!known.includes(key)) {
       out.push({ path: childPath, key, known });
       continue;
     }
-    const childLevel = NESTED_KEY_MAP[key] ?? (key === 'required_checks' ? 'verification.required_checks' : level);
+    const childLevel =
+      key === 'severity_overrides'
+        ? 'severity_overrides'
+        : (NESTED_KEY_MAP[key] ?? (key === 'required_checks' ? 'verification.required_checks' : level));
     findUnknownKeys(child, childLevel, childPath, out);
   }
 }

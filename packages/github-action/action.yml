@@ -1,0 +1,39 @@
+name: 'ContribSpec verification'
+description: >-
+  Evaluate a pull request against the repository's contribution policy and
+  publish a structured verification report as a GitHub Check. The policy is
+  always loaded from the trusted base commit — never from the pull request.
+author: 'The ContribSpec Authors'
+branding:
+  icon: check-circle
+  color: blue
+
+inputs:
+  policy-path:
+    description: 'Path of the contribution policy, read at the pull request base commit.'
+    required: false
+    default: 'contribspec.yml'
+  mode:
+    description: 'Enforcement mode override: report | advisory | enforce. Empty uses the policy setting.'
+    required: false
+    default: ''
+  report-name:
+    description: 'Name of the GitHub Check published by this action.'
+    required: false
+    default: 'ContribSpec verification'
+  token:
+    description: 'Token used for read access (and checks:write to publish the report).'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  result:
+    description: 'Overall result: pass | fail | unverified | error'
+  report:
+    description: 'Versioned JSON verification report (docs/REPORT_FORMAT.md).'
+  failing-rules:
+    description: 'Comma-separated rule ids that failed or could not be verified.'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.mjs'

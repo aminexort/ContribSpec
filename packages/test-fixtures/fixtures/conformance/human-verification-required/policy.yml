@@ -1,0 +1,11 @@
+version: 1
+project:
+  name: human-verification-required
+contributions:
+  ai_assistance:
+    policy: require_human_verification
+    disclosure_locations: [pull_request_body]
+    required_fields: [tools, verification]
+  accountability:
+    human_responsibility: encouraged
+    human_understanding_attestation: encouraged

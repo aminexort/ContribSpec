@@ -44,6 +44,23 @@ export function resolveWithin(root: string, candidate: string): string {
   return real;
 }
 
+/**
+ * Resolves a path the user explicitly supplied on the command line.
+ *
+ * Absolute paths are honored (the invoking user is the authority for their own
+ * shell); relative paths must still stay inside `rootDir`, and null bytes are
+ * always rejected. Untrusted/derived paths must use `resolveWithin` instead.
+ */
+export function resolveExplicitPath(rootDir: string, candidate: string): string {
+  if (candidate.includes('\0')) {
+    throw new PathTraversalError(candidate);
+  }
+  if (isAbsolute(candidate)) {
+    return tryRealpath(resolve(candidate));
+  }
+  return resolveWithin(rootDir, candidate);
+}
+
 /** True if `path` exists and is a regular file. */
 export function isFile(path: string): boolean {
   try {

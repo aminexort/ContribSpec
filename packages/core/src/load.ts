@@ -13,7 +13,7 @@ import {
   type Severity,
 } from '@contribspec/schema';
 import type { Diagnostic, ResolvedPolicy } from './types.js';
-import { isFile, resolveWithin } from './paths.js';
+import { isFile, resolveExplicitPath, resolveWithin } from './paths.js';
 import { validatePolicyText } from './validate.js';
 
 export class PolicyNotFoundError extends Error {
@@ -130,7 +130,7 @@ export function loadPolicyText(text: string, opts: ResolveOptions): LoadResult {
 export function loadPolicyFile(rootDir: string, explicitPath?: string): LoadResult {
   let path: string;
   if (explicitPath) {
-    path = resolveWithin(rootDir, explicitPath);
+    path = resolveExplicitPath(rootDir, explicitPath);
     if (!isFile(path)) {
       throw new PolicyNotFoundError([explicitPath]);
     }

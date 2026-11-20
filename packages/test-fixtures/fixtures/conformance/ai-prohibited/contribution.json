@@ -1,0 +1,8 @@
+{
+  "provider": "local",
+  "repository": "acme/demo",
+  "title": "Refactor",
+  "body": "This change was generated with ChatGPT and then reviewed by me.",
+  "author": "carol",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

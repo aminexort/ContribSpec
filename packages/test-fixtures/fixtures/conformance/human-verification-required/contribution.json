@@ -1,0 +1,11 @@
+{
+  "provider": "github",
+  "repository": "acme/demo",
+  "title": "Fix bug",
+  "body": "AI tools: copilot\nVerification: ran the tests locally",
+  "author": "grace",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "commits": [
+    { "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "message": "fix: bug", "signoffs": [] }
+  ]
+}

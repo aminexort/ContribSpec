@@ -1,0 +1,8 @@
+{
+  "provider": "local",
+  "repository": "acme/minimal",
+  "title": "Fix typo",
+  "body": "Small documentation fix.",
+  "author": "alice",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

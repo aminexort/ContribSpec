@@ -1,0 +1,5 @@
+[
+  { "kind": "check_run", "source": "github-check-run", "name": "unit-tests", "subjectSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "pass" },
+  { "kind": "check_run", "source": "github-check-run", "name": "type-check", "subjectSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "pass" },
+  { "kind": "dco_signoff", "source": "commit-trailer", "name": "DCO sign-off", "subjectSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "pass" }
+]

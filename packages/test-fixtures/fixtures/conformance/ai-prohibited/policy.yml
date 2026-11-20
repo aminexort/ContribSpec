@@ -1,0 +1,6 @@
+version: 1
+project:
+  name: ai-prohibited
+contributions:
+  ai_assistance:
+    policy: prohibit

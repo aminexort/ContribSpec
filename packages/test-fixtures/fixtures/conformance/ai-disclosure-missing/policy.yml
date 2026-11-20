@@ -1,0 +1,8 @@
+version: 1
+project:
+  name: ai-disclosure-missing
+contributions:
+  ai_assistance:
+    policy: allow_with_disclosure
+    disclosure_locations: [pull_request_body]
+    required_fields: [tools, scope]

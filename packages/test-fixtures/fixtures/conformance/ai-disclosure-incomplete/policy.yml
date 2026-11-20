@@ -1,0 +1,11 @@
+version: 1
+project:
+  name: ai-disclosure-incomplete
+contributions:
+  ai_assistance:
+    policy: allow_with_disclosure
+    disclosure_locations: [pull_request_body]
+    required_fields: [tools, scope]
+enforcement:
+  severity_overrides:
+    AI-002: error

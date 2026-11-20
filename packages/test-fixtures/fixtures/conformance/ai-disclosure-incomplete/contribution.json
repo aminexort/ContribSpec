@@ -1,0 +1,8 @@
+{
+  "provider": "local",
+  "repository": "acme/demo",
+  "title": "Add parser",
+  "body": "AI tools: copilot\n\nThis adds a new parser.",
+  "author": "bob",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

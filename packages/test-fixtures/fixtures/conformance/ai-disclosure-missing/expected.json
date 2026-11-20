@@ -1,0 +1,6 @@
+{
+  "result": "unverified",
+  "findings": [
+    { "ruleId": "AI-001", "status": "missing_evidence" }
+  ]
+}

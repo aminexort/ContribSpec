@@ -1,0 +1,6 @@
+version: 1
+project:
+  name: unknown-key
+contributions:
+  pull_request:
+    issue_reference: required

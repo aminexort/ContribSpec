@@ -16,7 +16,7 @@ export {
   MAX_TEXT_LENGTH,
   MAX_SUMMARY_LENGTH,
 } from './sanitize.js';
-export { resolveWithin, isFile, PathTraversalError } from './paths.js';
+export { resolveWithin, resolveExplicitPath, isFile, PathTraversalError } from './paths.js';
 export { parseYamlSafely, YamlParseError, MAX_POLICY_BYTES, MAX_ALIAS_COUNT } from './yaml.js';
 export {
   validatePolicyValue,

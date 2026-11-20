@@ -1,0 +1,7 @@
+{
+  "result": "pass",
+  "findings": [
+    { "ruleId": "AI-001", "status": "not_applicable" },
+    { "ruleId": "CMP-002", "status": "not_applicable" }
+  ]
+}

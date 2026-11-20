@@ -1,0 +1,8 @@
+{
+  "result": "fail",
+  "findings": [
+    { "ruleId": "AI-001", "status": "pass" },
+    { "ruleId": "AI-002", "status": "fail" },
+    { "ruleId": "AI-003", "status": "pass" }
+  ]
+}

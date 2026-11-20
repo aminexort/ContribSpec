@@ -1,0 +1,11 @@
+{
+  "provider": "github",
+  "repository": "acme/demo",
+  "title": "Add feature",
+  "body": "Adds a feature.",
+  "author": "erin",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "commits": [
+    { "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "message": "feat: add feature", "signoffs": [] }
+  ]
+}

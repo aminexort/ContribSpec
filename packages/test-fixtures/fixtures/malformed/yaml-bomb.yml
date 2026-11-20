@@ -1,0 +1,6 @@
+version: 1
+project: &a ["x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"]
+metadata:
+  description: &b [*a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a, *a]
+  maintainers: &c [*b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b, *b]
+x-deep: [*c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c, *c]

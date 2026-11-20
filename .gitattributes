@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+packages/github-action/dist/** linguist-generated=true

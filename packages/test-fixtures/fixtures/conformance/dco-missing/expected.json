@@ -1,0 +1,6 @@
+{
+  "result": "fail",
+  "findings": [
+    { "ruleId": "CMP-001", "status": "fail" }
+  ]
+}

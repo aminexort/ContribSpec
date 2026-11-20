@@ -94,12 +94,14 @@ class FindingBuilder {
     if (severity === 'off') {
       return;
     }
+    // Informational outcomes never carry a gating severity.
+    const effective = status === 'not_applicable' ? 'notice' : severity;
     this.findings.push({
       ruleId,
       requirement: opts.requirement ?? rule.requirement,
       title: rule.title,
       status,
-      severity,
+      severity: effective,
       message: sanitizeText(message, 2000),
       remediation: sanitizeText(opts.remediation ?? rule.remediation, 1000),
       evidenceRefs: opts.evidenceRefs ?? [],
@@ -401,16 +403,19 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         'ACC-001',
         'pass',
         'A responsibility claim (sign-off or statement) was found. Recorded as a claim; ContribSpec does not verify identity.',
-        { data: { claimPresent: true } },
+        { cap: levelCap(respLevel), data: { claimPresent: true } },
       );
     } else if (!hasData) {
-      b.emit('ACC-001', 'missing_evidence', 'Neither pull request description nor commit metadata was available.');
+      b.emit('ACC-001', 'missing_evidence', 'Neither pull request description nor commit metadata was available.', {
+        cap: levelCap(respLevel),
+      });
     } else {
       b.emit(
         'ACC-001',
         'fail',
         `No responsibility claim (sign-off or statement) was found in the searched locations.${levelNote(respLevel)}`,
         {
+          cap: levelCap(respLevel),
           data: { claimPresent: false },
           ...(forced
             ? {
@@ -442,6 +447,7 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         ? 'An understanding claim was recorded. ContribSpec records the claim; it does not verify understanding.'
         : `No understanding claim was found in the searched locations.${levelNote(undLevel)}`,
       {
+        cap: levelCap(undLevel),
         data: { claimPresent: claimed },
         ...(forced && !claimed
           ? { remediation: 'State in the pull request description that you understand the change.' }

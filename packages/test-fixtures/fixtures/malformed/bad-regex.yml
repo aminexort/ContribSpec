@@ -1,0 +1,6 @@
+version: 1
+project:
+  name: bad-regex
+contributions:
+  pull_requests:
+    title_pattern: "([unclosed"

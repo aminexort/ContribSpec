@@ -1,0 +1,10 @@
+{
+  "provider": "github",
+  "repository": "acme/demo",
+  "title": "Huge change",
+  "body": "Touches many files.",
+  "author": "frank",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "changedFiles": 12,
+  "changedLines": 900
+}

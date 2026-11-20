@@ -1,0 +1,8 @@
+version: 1
+project:
+  name: check-evidence-stale
+contributions:
+  verification:
+    required_checks:
+      - name: unit-tests
+        source: any

@@ -1,0 +1,8 @@
+{
+  "provider": "github",
+  "repository": "acme/demo",
+  "title": "Add feature",
+  "body": "Adds a feature.",
+  "author": "dave",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

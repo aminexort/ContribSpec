@@ -1,0 +1,7 @@
+version: 1
+project:
+  name: pr-limits-exceeded
+contributions:
+  pull_requests:
+    max_changed_files: 5
+    max_changed_lines: 100
