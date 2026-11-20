@@ -1,0 +1,26 @@
+{
+  "name": "@contribspec/cli",
+  "version": "0.1.0",
+  "description": "ContribSpec command line interface: init, validate, explain, check, policy test, version",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "bin": {
+    "contribspec": "./dist/main.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/main.d.ts",
+      "default": "./dist/main.js"
+    }
+  },
+  "files": ["dist"],
+  "engines": { "node": ">=20.11" },
+  "dependencies": {
+    "@contribspec/core": "*",
+    "@contribspec/integrations": "*",
+    "@contribspec/schema": "*",
+    "@contribspec/test-fixtures": "*"
+  }
+}

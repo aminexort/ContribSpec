@@ -1,0 +1,15 @@
+{
+  "name": "@contribspec/github-action",
+  "version": "0.1.0",
+  "description": "ContribSpec GitHub Action: evaluates pull requests against the contribution policy from the trusted base commit",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "engines": { "node": ">=20.11" },
+  "dependencies": {
+    "@contribspec/core": "*",
+    "@contribspec/integrations": "*",
+    "@contribspec/schema": "*"
+  }
+}

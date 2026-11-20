@@ -1,0 +1,17 @@
+{
+  "name": "@contribspec/test-fixtures",
+  "version": "0.1.0",
+  "description": "ContribSpec conformance fixtures: sample policies, contributions and expected outcomes",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "fixtures"],
+  "engines": { "node": ">=20.11" }
+}
