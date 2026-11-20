@@ -13,7 +13,9 @@
       "default": "./dist/main.js"
     }
   },
-  "engines": { "node": ">=20.11" },
+  "engines": {
+    "node": ">=20.11"
+  },
   "dependencies": {
     "@contribspec/core": "*",
     "@contribspec/integrations": "*",

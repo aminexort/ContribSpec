@@ -26,11 +26,7 @@ import {
   type Evidence,
   type EvaluationReport,
 } from '@contribspec/core';
-import {
-  GitHubProvider,
-  splitRepository,
-  commitsToDcoEvidence,
-} from '@contribspec/integrations';
+import { GitHubProvider, splitRepository, commitsToDcoEvidence } from '@contribspec/integrations';
 
 export const MAX_EVENT_BYTES = 10 * 1024 * 1024;
 
@@ -80,7 +76,10 @@ function appendStepSummary(env: Record<string, string | undefined>, markdown: st
   }
 }
 
-function writeOutputs(env: Record<string, string | undefined>, outputs: Record<string, string>): void {
+function writeOutputs(
+  env: Record<string, string | undefined>,
+  outputs: Record<string, string>,
+): void {
   const path = env.GITHUB_OUTPUT;
   if (!path || !existsSync(path)) {
     return;
@@ -192,7 +191,10 @@ export async function runAction(deps: ActionDeps): Promise<ActionResult> {
     log(`ContribSpec: policy at base commit is invalid: ${details}`);
     outputs.result = 'error';
     outputs['failing-rules'] = '';
-    outputs.report = JSON.stringify({ error: 'POLICY-INVALID-AT-BASE', diagnostics: loaded.diagnostics });
+    outputs.report = JSON.stringify({
+      error: 'POLICY-INVALID-AT-BASE',
+      diagnostics: loaded.diagnostics,
+    });
     writeOutputs(env, outputs);
     await provider.publishCheckRun({
       sha: subject.headSha,

@@ -84,6 +84,7 @@ export function parseYamlSafely(text: string): YamlParseResult {
       const tagMatch = /tag:\s*([^\s]+)|"([^"\n]+)"/.exec(warn.message);
       const tag = tagMatch?.[1] ?? tagMatch?.[2] ?? 'unknown';
       throw new YamlParseError(
+        // eslint-disable-next-line no-control-regex
         `Custom YAML tag "${tag.replace(/[\u0000-\u001f]/g, '')}" is not allowed in policy files.`,
       );
     }
@@ -92,6 +93,7 @@ export function parseYamlSafely(text: string): YamlParseResult {
     const tag = (node as { tag?: string }).tag;
     if (tag && !ALLOWED_TAGS.has(tag)) {
       throw new YamlParseError(
+        // eslint-disable-next-line no-control-regex
         `Custom YAML tag "${tag.replace(/[\u0000-\u001f]/g, '')}" is not allowed in policy files.`,
       );
     }

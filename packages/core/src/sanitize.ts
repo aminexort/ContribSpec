@@ -12,11 +12,13 @@ export const MAX_TEXT_LENGTH = 10_000;
 /** Cap for large blobs (e.g. commit messages) summarized into reports. */
 export const MAX_SUMMARY_LENGTH = 2_000;
 
-// eslint-disable-next-line no-control-regex
+/* eslint-disable no-control-regex -- sanitizers must match control characters */
 const CONTROL_CHARS = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/g;
 // ANSI/VT escape sequences (CSI, OSC, single-char escapes).
-const ANSI_SEQUENCES = /\u001b\[[0-9;?]*[ -/]*[@-~]|\u001b\][^\u0007]*(?:\u0007|\u001b\\)|\u001b[@-Z\\-_]/g;
+const ANSI_SEQUENCES =
+  /\u001b\[[0-9;?]*[ -/]*[@-~]|\u001b\][^\u0007]*(?:\u0007|\u001b\\)|\u001b[@-Z\\-_]/g;
 const BIDI_OVERRIDES = /[\u202a-\u202e\u2066-\u2069]/g;
+/* eslint-enable no-control-regex */
 
 /**
  * Strips control characters, terminal escape sequences and bidi overrides,
@@ -45,7 +47,7 @@ export function sanitizeInline(input: unknown, maxLength: number = 500): string 
  */
 export function escapeMarkdown(input: unknown, maxLength: number = MAX_TEXT_LENGTH): string {
   const text = sanitizeText(input, maxLength);
-  return text.replace(/[\\`*_{}\[\]()#+\-.!|<>~^$&%]/g, (ch) => `\\${ch}`);
+  return text.replace(/[\\`*_{}[\]()#+\-.!|<>~^$&%]/g, (ch) => `\\${ch}`);
 }
 
 /** Renders a code-fenced block that cannot be broken out of by backticks in the content. */

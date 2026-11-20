@@ -164,7 +164,11 @@ function evaluatePullRequests(ctx: RuleContext, b: FindingBuilder): void {
   if (issueBehavior === 'waived') {
     b.emit('PR-001', 'not_applicable', `Issue references are explicitly not required by policy.`);
   } else if (issueBehavior === 'record-only') {
-    b.emit('PR-001', 'not_applicable', 'Issue references are optional; recorded only when present.');
+    b.emit(
+      'PR-001',
+      'not_applicable',
+      'Issue references are optional; recorded only when present.',
+    );
   } else {
     const found = hasIssueReference(subject.title, subject.body);
     b.emit(
@@ -184,9 +188,14 @@ function evaluatePullRequests(ctx: RuleContext, b: FindingBuilder): void {
   const maxFiles = policy.pullRequests.maxChangedFiles;
   if (maxFiles !== undefined) {
     if (subject.changedFiles === undefined) {
-      b.emit('PR-002', 'missing_evidence', 'Changed-file count was not available in the collected metadata.', {
-        data: { limit: maxFiles },
-      });
+      b.emit(
+        'PR-002',
+        'missing_evidence',
+        'Changed-file count was not available in the collected metadata.',
+        {
+          data: { limit: maxFiles },
+        },
+      );
     } else {
       const ok = subject.changedFiles <= maxFiles;
       b.emit(
@@ -207,9 +216,14 @@ function evaluatePullRequests(ctx: RuleContext, b: FindingBuilder): void {
   const maxLines = policy.pullRequests.maxChangedLines;
   if (maxLines !== undefined) {
     if (subject.changedLines === undefined) {
-      b.emit('PR-003', 'missing_evidence', 'Changed-line count was not available in the collected metadata.', {
-        data: { limit: maxLines },
-      });
+      b.emit(
+        'PR-003',
+        'missing_evidence',
+        'Changed-line count was not available in the collected metadata.',
+        {
+          data: { limit: maxLines },
+        },
+      );
     } else {
       const ok = subject.changedLines <= maxLines;
       b.emit(
@@ -259,7 +273,11 @@ function evaluateAiAssistance(ctx: RuleContext, b: FindingBuilder): void {
   const aiPolicy = policy.ai.policy;
 
   if (aiPolicy === 'allow') {
-    b.emit('AI-001', 'not_applicable', 'AI assistance is permitted without disclosure under this policy.');
+    b.emit(
+      'AI-001',
+      'not_applicable',
+      'AI assistance is permitted without disclosure under this policy.',
+    );
     return;
   }
   if (aiPolicy === 'advisory_only') {
@@ -374,7 +392,10 @@ function evaluateAiAssistance(ctx: RuleContext, b: FindingBuilder): void {
       ? `Statement found in an accepted location (${located.map((d) => d.location).join(', ')}).`
       : `Statements were found only in locations not accepted by policy (accepted: ${allowed.join(', ')}).`,
     {
-      data: { allowedLocations: allowed.join(','), foundLocations: anyDisclosure.map((d) => d.location).join(',') },
+      data: {
+        allowedLocations: allowed.join(','),
+        foundLocations: anyDisclosure.map((d) => d.location).join(','),
+      },
     },
   );
 
@@ -396,9 +417,17 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
   }
   const respBehavior = levelBehavior(respLevel);
   if (respBehavior === 'waived') {
-    b.emit('ACC-001', 'not_applicable', 'Human responsibility statements are explicitly waived by policy.');
+    b.emit(
+      'ACC-001',
+      'not_applicable',
+      'Human responsibility statements are explicitly waived by policy.',
+    );
   } else if (respBehavior === 'record-only') {
-    b.emit('ACC-001', 'not_applicable', 'Human responsibility statements are optional; recorded when present.');
+    b.emit(
+      'ACC-001',
+      'not_applicable',
+      'Human responsibility statements are optional; recorded when present.',
+    );
   } else {
     const hasData = subject.body.length > 0 || (subject.commits?.length ?? 0) > 0;
     const claimed = hasResponsibilityClaim(subject.body, subject.commits);
@@ -410,9 +439,14 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
         { severity: levelSeverity(respLevel), data: { claimPresent: true } },
       );
     } else if (!hasData) {
-      b.emit('ACC-001', 'missing_evidence', 'Neither pull request description nor commit metadata was available.', {
-        severity: levelSeverity(respLevel),
-      });
+      b.emit(
+        'ACC-001',
+        'missing_evidence',
+        'Neither pull request description nor commit metadata was available.',
+        {
+          severity: levelSeverity(respLevel),
+        },
+      );
     } else {
       b.emit(
         'ACC-001',
@@ -439,9 +473,17 @@ function evaluateAccountability(ctx: RuleContext, b: FindingBuilder): void {
   }
   const undBehavior = levelBehavior(undLevel);
   if (undBehavior === 'waived') {
-    b.emit('ACC-002', 'not_applicable', 'Understanding attestations are explicitly waived by policy.');
+    b.emit(
+      'ACC-002',
+      'not_applicable',
+      'Understanding attestations are explicitly waived by policy.',
+    );
   } else if (undBehavior === 'record-only') {
-    b.emit('ACC-002', 'not_applicable', 'Understanding attestations are optional; recorded when present.');
+    b.emit(
+      'ACC-002',
+      'not_applicable',
+      'Understanding attestations are optional; recorded when present.',
+    );
   } else {
     const claimed = hasUnderstandingClaim(subject.body, subject.commits);
     b.emit(
@@ -474,19 +516,29 @@ function evaluateVerification(ctx: RuleContext, b: FindingBuilder): void {
     const failing = matching.find((e) => e.status === 'fail');
 
     if (passing) {
-      b.emit('VER-001', 'pass', `Check "${check.name}" has passing evidence for commit ${subject.headSha}.`, {
-        severity: check.severity,
-        requirement,
-        evidenceRefs: [passing.id ?? ''],
-        data,
-      });
+      b.emit(
+        'VER-001',
+        'pass',
+        `Check "${check.name}" has passing evidence for commit ${subject.headSha}.`,
+        {
+          severity: check.severity,
+          requirement,
+          evidenceRefs: [passing.id ?? ''],
+          data,
+        },
+      );
     } else if (failing) {
-      b.emit('VER-001', 'fail', `Check "${check.name}" reports failure for commit ${subject.headSha}.`, {
-        severity: check.severity,
-        requirement,
-        evidenceRefs: [failing.id ?? ''],
-        data,
-      });
+      b.emit(
+        'VER-001',
+        'fail',
+        `Check "${check.name}" reports failure for commit ${subject.headSha}.`,
+        {
+          severity: check.severity,
+          requirement,
+          evidenceRefs: [failing.id ?? ''],
+          data,
+        },
+      );
     } else if (matching.length > 0) {
       const statuses = [...new Set(matching.map((e) => e.status))].join(', ');
       b.emit(
@@ -494,7 +546,12 @@ function evaluateVerification(ctx: RuleContext, b: FindingBuilder): void {
         'missing_evidence',
         `Check "${check.name}" has evidence for commit ${subject.headSha}, but it is inconclusive (status: ${statuses}). ` +
           `Missing or inconclusive evidence is not the same as a failed check.`,
-        { severity: check.severity, requirement, evidenceRefs: matching.map((e) => e.id ?? ''), data },
+        {
+          severity: check.severity,
+          requirement,
+          evidenceRefs: matching.map((e) => e.id ?? ''),
+          data,
+        },
       );
     } else {
       b.emit(
@@ -536,9 +593,7 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
     b.emit('CMP-001', 'not_applicable', 'DCO sign-off is optional; recorded when present.');
   } else {
     const commits = subject.commits;
-    const dcoEvidence = evidence.filter(
-      (e) => e.kind === 'dco_signoff' || /dco/i.test(e.name),
-    );
+    const dcoEvidence = evidence.filter((e) => e.kind === 'dco_signoff' || /dco/i.test(e.name));
     const dcoPass = dcoEvidence.find((e) => e.status === 'pass');
     const dcoFail = dcoEvidence.find((e) => e.status === 'fail');
 
@@ -566,15 +621,25 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
         );
       }
     } else if (dcoPass) {
-      b.emit('CMP-001', 'pass', `DCO evidence "${dcoPass.name}" reports success for commit ${subject.headSha}.`, {
-        severity: levelSeverity(dcoLevel),
-        evidenceRefs: [dcoPass.id ?? ''],
-      });
+      b.emit(
+        'CMP-001',
+        'pass',
+        `DCO evidence "${dcoPass.name}" reports success for commit ${subject.headSha}.`,
+        {
+          severity: levelSeverity(dcoLevel),
+          evidenceRefs: [dcoPass.id ?? ''],
+        },
+      );
     } else if (dcoFail) {
-      b.emit('CMP-001', 'fail', `DCO evidence "${dcoFail.name}" reports failure for commit ${subject.headSha}.`, {
-        severity: levelSeverity(dcoLevel),
-        evidenceRefs: [dcoFail.id ?? ''],
-      });
+      b.emit(
+        'CMP-001',
+        'fail',
+        `DCO evidence "${dcoFail.name}" reports failure for commit ${subject.headSha}.`,
+        {
+          severity: levelSeverity(dcoLevel),
+          evidenceRefs: [dcoFail.id ?? ''],
+        },
+      );
     } else {
       b.emit(
         'CMP-001',
@@ -597,15 +662,25 @@ function evaluateCompliance(ctx: RuleContext, b: FindingBuilder): void {
     const pass = claEvidence.find((e) => e.status === 'pass');
     const fail = claEvidence.find((e) => e.status === 'fail');
     if (pass) {
-      b.emit('CMP-002', 'pass', `CLA evidence "${pass.name}" reports success for commit ${subject.headSha}.`, {
-        severity: levelSeverity(claLevel),
-        evidenceRefs: [pass.id ?? ''],
-      });
+      b.emit(
+        'CMP-002',
+        'pass',
+        `CLA evidence "${pass.name}" reports success for commit ${subject.headSha}.`,
+        {
+          severity: levelSeverity(claLevel),
+          evidenceRefs: [pass.id ?? ''],
+        },
+      );
     } else if (fail) {
-      b.emit('CMP-002', 'fail', `CLA evidence "${fail.name}" reports failure for commit ${subject.headSha}.`, {
-        severity: levelSeverity(claLevel),
-        evidenceRefs: [fail.id ?? ''],
-      });
+      b.emit(
+        'CMP-002',
+        'fail',
+        `CLA evidence "${fail.name}" reports failure for commit ${subject.headSha}.`,
+        {
+          severity: levelSeverity(claLevel),
+          evidenceRefs: [fail.id ?? ''],
+        },
+      );
     } else {
       b.emit(
         'CMP-002',
@@ -705,7 +780,9 @@ export function evaluateContribution(input: EvaluationInput): EvaluationReport {
 
   const b = new FindingBuilder(ctx);
   for (const ruleId of ctx.disabled) {
-    notes.push(`Rule ${ruleId} is disabled by policy (severity override "off") and was not evaluated.`);
+    notes.push(
+      `Rule ${ruleId} is disabled by policy (severity override "off") and was not evaluated.`,
+    );
   }
 
   evaluatePullRequests(ctx, b);
@@ -717,7 +794,8 @@ export function evaluateContribution(input: EvaluationInput): EvaluationReport {
   const findings = b.findings;
   const result = computeResult(findings, policy);
 
-  const count = (status: FindingStatus): number => findings.filter((f) => f.status === status).length;
+  const count = (status: FindingStatus): number =>
+    findings.filter((f) => f.status === status).length;
 
   return {
     reportVersion: '1.0',

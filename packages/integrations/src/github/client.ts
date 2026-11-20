@@ -47,7 +47,11 @@ export class GitHubClient {
     // Normalize and pin the base URL; the token is never sent anywhere else.
     const base = (options.apiBaseUrl ?? 'https://api.github.com').replace(/\/+$/, '');
     if (!/^https?:\/\/[^\s]+$/.test(base)) {
-      throw new ForgeApiError(`Invalid API base URL: ${sanitizeInline(base, 100)}`, 0, 'apiBaseUrl');
+      throw new ForgeApiError(
+        `Invalid API base URL: ${sanitizeInline(base, 100)}`,
+        0,
+        'apiBaseUrl',
+      );
     }
     this.baseUrl = base;
     this.headers = {

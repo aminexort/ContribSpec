@@ -1,0 +1,17 @@
+# Blocks pull requests that introduce risky dependencies (ADR-0006).
+name: Dependency review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # TODO(release): pin to commit SHA (scripts/pin-actions.mjs)
+      - uses: actions/dependency-review-action@v4 # TODO(release): pin to commit SHA
+        with:
+          fail-on-severity: high

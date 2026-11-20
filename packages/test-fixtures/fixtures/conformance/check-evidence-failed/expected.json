@@ -1,6 +1,4 @@
 {
   "result": "fail",
-  "findings": [
-    { "ruleId": "VER-001", "status": "fail" }
-  ]
+  "findings": [{ "ruleId": "VER-001", "status": "fail" }]
 }

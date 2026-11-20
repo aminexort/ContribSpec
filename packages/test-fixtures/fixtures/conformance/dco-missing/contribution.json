@@ -6,6 +6,10 @@
   "author": "erin",
   "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "commits": [
-    { "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "message": "feat: add feature", "signoffs": [] }
+    {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "message": "feat: add feature",
+      "signoffs": []
+    }
   ]
 }

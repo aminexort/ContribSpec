@@ -110,7 +110,9 @@ export function explainPolicy(policy: ResolvedPolicy, format: ExplainFormat = 't
 
   if (format === 'markdown') {
     const lines: string[] = [];
-    lines.push(`### Contribution requirements — ${escapeMarkdown(policy.document.project.name, 120)}`);
+    lines.push(
+      `### Contribution requirements — ${escapeMarkdown(policy.document.project.name, 120)}`,
+    );
     lines.push('');
     lines.push(
       `Enforcement mode: **${mode}**. Missing evidence is treated as: **${policy.enforcement.missingEvidence}**.`,
@@ -134,7 +136,9 @@ export function explainPolicy(policy: ResolvedPolicy, format: ExplainFormat = 't
   const lines: string[] = [];
   lines.push(`Contribution requirements for ${sanitizeInline(policy.document.project.name, 120)}`);
   lines.push(`Policy: ${sanitizeInline(policy.path, 200)} (version ${policy.document.version})`);
-  lines.push(`Enforcement mode: ${mode}; missing evidence is treated as: ${policy.enforcement.missingEvidence}.`);
+  lines.push(
+    `Enforcement mode: ${mode}; missing evidence is treated as: ${policy.enforcement.missingEvidence}.`,
+  );
   lines.push('');
   for (const r of rules) {
     lines.push(`[${r.ruleId}] ${r.title}`);

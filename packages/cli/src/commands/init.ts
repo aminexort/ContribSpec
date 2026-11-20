@@ -26,7 +26,11 @@ function isProfileId(value: string): value is ProfileId {
   return (PROFILE_IDS as string[]).includes(value);
 }
 
-async function prompt(rl: ReturnType<typeof createInterface>, question: string, fallback: string): Promise<string> {
+async function prompt(
+  rl: ReturnType<typeof createInterface>,
+  question: string,
+  fallback: string,
+): Promise<string> {
   const answer = (await rl.question(`${question} [${fallback}]: `)).trim();
   return answer || fallback;
 }
@@ -45,7 +49,11 @@ export async function runInit(opts: InitOptions): Promise<CommandOutput> {
       for (const id of PROFILE_IDS) {
         stdout.write(`  ${id.padEnd(8)} ${PROFILES[id].description}\n`);
       }
-      const profileAnswer = await prompt(rl, 'Profile (minimal/node/python/go/rust/docs)', profileId);
+      const profileAnswer = await prompt(
+        rl,
+        'Profile (minimal/node/python/go/rust/docs)',
+        profileId,
+      );
       if (isProfileId(profileAnswer.trim())) {
         profileId = profileAnswer.trim() as ProfileId;
       } else {
@@ -93,7 +101,13 @@ export async function runInit(opts: InitOptions): Promise<CommandOutput> {
     `  3. Add the GitHub workflow from docs/QUICKSTART.md\n`;
   return {
     text,
-    json: { ok: true, path: rel, profile: profileId, project: projectName, interactive: interactiveUsed },
+    json: {
+      ok: true,
+      path: rel,
+      profile: profileId,
+      project: projectName,
+      interactive: interactiveUsed,
+    },
     markdown: `Created \`${rel}\` with profile **${profileId}**.\n\nNext: \`contribspec validate\`, then \`contribspec explain\`.\n`,
     exitCode: 0,
   };

@@ -12,8 +12,12 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
-  "engines": { "node": ">=20.11" },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  },
   "dependencies": {
     "@contribspec/schema": "*",
     "ajv": "^8.17.1",

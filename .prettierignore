@@ -1,0 +1,8 @@
+dist/
+dist-tests/
+node_modules/
+packages/github-action/dist/
+package-lock.json
+LICENSE
+*.min.js
+packages/schema/src/generated-schema.ts

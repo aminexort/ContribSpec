@@ -1,0 +1,32 @@
+# ContribSpec policy — go project example.
+# Validate with: contribspec validate   ·   Explain: contribspec explain
+version: 1
+
+project:
+  name: 'go-example'
+
+contributions:
+  pull_requests:
+    issue_reference: encouraged
+    max_changed_files: 50
+  ai_assistance:
+    policy: allow_with_disclosure
+    disclosure_locations:
+      - pull_request_body
+    required_fields:
+      - tools
+      - scope
+  accountability:
+    human_responsibility: required
+    human_understanding_attestation: encouraged
+  verification:
+    required_checks:
+      - name: test
+      - name: vet
+  compliance:
+    dco: required
+    cla: not_required
+
+enforcement:
+  default_mode: report
+  missing_evidence: report

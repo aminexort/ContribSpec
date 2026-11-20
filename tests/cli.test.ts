@@ -109,7 +109,10 @@ test('validate --format json emits a machine-readable contract', () => {
 test('explain --format markdown produces a requirements table', () => {
   const dir = makeTempDir();
   try {
-    writeFileSync(join(dir, 'contribspec.yml'), readFileSync(join(policiesDir(), 'node-policy.yml'), 'utf8'));
+    writeFileSync(
+      join(dir, 'contribspec.yml'),
+      readFileSync(join(policiesDir(), 'node-policy.yml'), 'utf8'),
+    );
     const r = run(dir, ['explain', '--format', 'markdown']);
     assert.equal(r.status, 0);
     assert.match(r.stdout, /\| Rule \| Requirement \|/);
@@ -122,7 +125,10 @@ test('explain --format markdown produces a requirements table', () => {
 test('check (local) evaluates a contribution file and emits JSON', () => {
   const dir = makeTempDir();
   try {
-    writeFileSync(join(dir, 'contribspec.yml'), readFileSync(join(policiesDir(), 'node-policy.yml'), 'utf8'));
+    writeFileSync(
+      join(dir, 'contribspec.yml'),
+      readFileSync(join(policiesDir(), 'node-policy.yml'), 'utf8'),
+    );
     const contributions = join(packageRoot(), 'fixtures', 'contributions');
     const r = run(dir, [
       'check',

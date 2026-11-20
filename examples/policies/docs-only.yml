@@ -1,0 +1,15 @@
+version: 1
+project:
+  name: docs-sample
+contributions:
+  pull_requests:
+    issue_reference: encouraged
+  ai_assistance:
+    policy: allow_with_disclosure
+    disclosure_locations: [pull_request_body]
+    required_fields: [tools]
+  compliance:
+    dco: not_required
+    cla: not_required
+enforcement:
+  default_mode: report

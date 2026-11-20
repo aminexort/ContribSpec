@@ -30,10 +30,13 @@ const NUL = '\u0000';
 
 test('YAML alias bombs fail fast instead of expanding', () => {
   const bomb = `version: 1\nproject: &a [${Array(20).fill('"x"').join(', ')}]\nmetadata:\n  description: &b [${Array(20).fill('*a').join(', ')}]\n  maintainers: &c [${Array(20).fill('*b').join(', ')}]\n`;
-  assert.throws(() => parseYamlSafely(bomb), (err: unknown) => {
-    assert.ok(err instanceof YamlParseError || err instanceof Error);
-    return true;
-  });
+  assert.throws(
+    () => parseYamlSafely(bomb),
+    (err: unknown) => {
+      assert.ok(err instanceof YamlParseError || err instanceof Error);
+      return true;
+    },
+  );
   // And the validator surfaces it as a diagnostic, never a crash.
   const result = validatePolicyText(bomb);
   assert.ok(!result.ok);

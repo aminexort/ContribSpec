@@ -66,14 +66,33 @@ test('JSON report matches the documented contract shape', () => {
   assert.equal(subjectJson.headSha, SHA);
 
   const summary = json.summary as Record<string, unknown>;
-  for (const key of ['result', 'mode', 'missingEvidenceMode', 'pass', 'fail', 'missingEvidence', 'notApplicable', 'error']) {
+  for (const key of [
+    'result',
+    'mode',
+    'missingEvidenceMode',
+    'pass',
+    'fail',
+    'missingEvidence',
+    'notApplicable',
+    'error',
+  ]) {
     assert.ok(key in summary, `summary.${key} missing`);
   }
 
   const findings = json.findings as Record<string, unknown>[];
   assert.ok(findings.length > 0);
   for (const f of findings) {
-    for (const key of ['ruleId', 'requirement', 'title', 'status', 'severity', 'message', 'remediation', 'evidenceRefs', 'data']) {
+    for (const key of [
+      'ruleId',
+      'requirement',
+      'title',
+      'status',
+      'severity',
+      'message',
+      'remediation',
+      'evidenceRefs',
+      'data',
+    ]) {
       assert.ok(key in f, `finding.${key} missing`);
     }
   }
@@ -90,7 +109,13 @@ test('report never uses forbidden verdict vocabulary', () => {
     changedFiles: 10,
   });
   const rendered = JSON.stringify(report) + renderMarkdown(report) + renderText(report);
-  const forbidden = [/\bis safe\b/i, /\bis secure\b/i, /\bis correct\b/i, /human-written/i, /\bproves?\b/i];
+  const forbidden = [
+    /\bis safe\b/i,
+    /\bis secure\b/i,
+    /\bis correct\b/i,
+    /human-written/i,
+    /\bproves?\b/i,
+  ];
   for (const pattern of forbidden) {
     assert.ok(!pattern.test(rendered), `rendered output must not contain ${pattern}`);
   }

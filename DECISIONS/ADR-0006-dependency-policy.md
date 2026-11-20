@@ -11,8 +11,8 @@ Supply-chain risk scales with dependency count. Contributors also audit what the
 - **Runtime dependencies are allowed only in `packages/core`**, and limited to:
   - `yaml` (YAML 1.2 parsing; strict mode, alias limits),
   - `ajv` (JSON Schema draft 2020-12 validation).
-  Everything else (arg parsing via `util.parseArgs`, HTTP via built-in `fetch`, tests via
-  `node:test`) uses the Node standard library.
+    Everything else (arg parsing via `util.parseArgs`, HTTP via built-in `fetch`, tests via
+    `node:test`) uses the Node standard library.
 - `packages/github-action` ships a **single bundled `dist/index.js` with zero runtime npm
   dependencies** (built by `scripts/build-action.mjs`).
 - `packages/integrations` uses built-in `fetch` only — no Octokit.

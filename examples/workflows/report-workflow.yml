@@ -1,0 +1,25 @@
+# Report-only: evaluate every pull request and publish a verification report.
+# Recommended starting point — switch to enforce-workflow.yml when satisfied.
+name: ContribSpec (report)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read # read the policy from the base commit
+  pull-requests: read # read pull request metadata
+  checks: write # publish the verification report as a Check
+
+jobs:
+  contribspec:
+    runs-on: ubuntu-latest
+    steps:
+      # No checkout: the action evaluates metadata over the API and never
+      # executes code from the pull request.
+      - name: Evaluate contribution policy
+        uses: YOUR_ORG/contribspec/packages/github-action@v0.1.0 # TODO(release): pin to commit SHA
+        with:
+          policy-path: contribspec.yml
+          mode: report
+          token: ${{ github.token }}

@@ -3,6 +3,6 @@ project:
   name: bad-schema-type
 contributions:
   pull_requests:
-    max_changed_files: "fifty"
+    max_changed_files: 'fifty'
   ai_assistance:
     policy: allow_with_magic

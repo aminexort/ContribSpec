@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a bug in ContribSpec (CLI, engine, schema, or GitHub Action)
+title: '[bug] '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. **Security vulnerabilities go through
+        [private reporting](../../security/policy), not this form.**
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - CLI (contribspec)
+        - Policy schema / validation
+        - Evaluation engine / report
+        - GitHub Action
+        - Evidence adapters
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include the exact command or workflow, expected vs actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Minimal policy file / contribution input that triggers it (no secrets!).
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: '`contribspec version` output / action tag'
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: ['Windows', 'macOS', 'Linux', 'GitHub-hosted runner', 'Other']
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Logs (redact tokens), screenshots, ideas.

@@ -1,0 +1,27 @@
+version: 1
+project:
+  name: strict-sample
+  description: Strict policy - prohibits AI assistance, enforces gates
+contributions:
+  pull_requests:
+    issue_reference: required
+    max_changed_files: 20
+  ai_assistance:
+    policy: prohibit
+  accountability:
+    human_responsibility: required
+  verification:
+    required_checks:
+      - name: unit-tests
+        severity: error
+      - name: security-scan
+        severity: warning
+  compliance:
+    dco: required
+    cla: required
+enforcement:
+  default_mode: enforce
+  missing_evidence: fail
+  severity_overrides:
+    PR-001: error
+x-owner: platform-team

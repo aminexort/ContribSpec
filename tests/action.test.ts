@@ -74,7 +74,10 @@ function harness(dir: string, overrides: Record<string, string> = {}): Harness {
   };
 }
 
-function routesWith(overrides: Parameters<typeof healthyPullRequestRoutes>[0] = {}, extra: FakeRoute[] = []): FakeRoute[] {
+function routesWith(
+  overrides: Parameters<typeof healthyPullRequestRoutes>[0] = {},
+  extra: FakeRoute[] = [],
+): FakeRoute[] {
   return [...healthyPullRequestRoutes(overrides), ...extra];
 }
 
@@ -104,7 +107,10 @@ test('healthy pull request: report is produced, check published, outputs written
     // Policy must be requested at the BASE commit — never the head.
     const contentCall = calls.find((c) => c.url.includes('/contents/'));
     assert.ok(contentCall);
-    assert.ok(contentCall.url.includes(`ref=${T.baseSha}`), `policy must load at base sha: ${contentCall.url}`);
+    assert.ok(
+      contentCall.url.includes(`ref=${T.baseSha}`),
+      `policy must load at base sha: ${contentCall.url}`,
+    );
     assert.ok(!contentCall.url.includes(`ref=${T.sha}`));
 
     const output = h.readOutput();
@@ -243,7 +249,10 @@ test('malicious PR metadata cannot inject into the job summary', async () => {
   try {
     const h = harness(dir);
     const evilBody = `${ESC}[31mINJECTED${ESC}[0m <script>alert(1)</script> ${'x'.repeat(20000)}`;
-    const routes = healthyPullRequestRoutes({ prBody: evilBody, policyText: 'version: 1\nproject:\n  name: demo\n' });
+    const routes = healthyPullRequestRoutes({
+      prBody: evilBody,
+      policyText: 'version: 1\nproject:\n  name: demo\n',
+    });
     const { fetchImpl } = fakeFetch(routes);
     await runAction({ env: h.env, fetchImpl, log: () => {} });
     const summary = h.readSummary();

@@ -35,11 +35,7 @@ export const POLICY_FILE_CANDIDATES = [
 export type RequirementLevel = 'required' | 'encouraged' | 'optional' | 'not_required';
 export type Severity = 'error' | 'warning' | 'notice' | 'off';
 export type AiPolicy =
-  | 'allow'
-  | 'allow_with_disclosure'
-  | 'require_human_verification'
-  | 'prohibit'
-  | 'advisory_only';
+  'allow' | 'allow_with_disclosure' | 'require_human_verification' | 'prohibit' | 'advisory_only';
 export type DisclosureLocation =
   | 'pull_request_body'
   | 'pull_request_comment'
@@ -202,7 +198,8 @@ export const RULES: Record<RuleId, RuleInfo> = {
     title: 'Description length',
     requirement: 'contributions.pull_requests.body_min_length',
     defaultSeverity: 'notice',
-    description: 'The pull request description must contain at least the declared number of characters.',
+    description:
+      'The pull request description must contain at least the declared number of characters.',
     remediation: 'Describe the motivation and the change in the pull request body.',
   },
   'AI-001': {
@@ -220,7 +217,8 @@ export const RULES: Record<RuleId, RuleInfo> = {
     title: 'Disclosure fields',
     requirement: 'contributions.ai_assistance.required_fields',
     defaultSeverity: 'warning',
-    description: 'When a disclosure is present, it must state the required fields (tools, scope, …).',
+    description:
+      'When a disclosure is present, it must state the required fields (tools, scope, …).',
     remediation: 'Extend the disclosure to cover every required field.',
   },
   'AI-003': {
@@ -281,7 +279,8 @@ export const RULES: Record<RuleId, RuleInfo> = {
     title: 'CLA',
     requirement: 'contributions.compliance.cla',
     defaultSeverity: 'error',
-    description: 'Contributor License Agreement expectation: CLA check evidence for the head commit.',
+    description:
+      'Contributor License Agreement expectation: CLA check evidence for the head commit.',
     remediation: 'Sign the project CLA as instructed in the contribution guide.',
   },
 };

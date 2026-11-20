@@ -10,6 +10,10 @@
   "changedFiles": 3,
   "changedLines": 120,
   "commits": [
-    { "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "message": "feat: caching layer\n\nSigned-off-by: Alice Dev <alice@example.com>", "signoffs": ["Alice Dev <alice@example.com>"] }
+    {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "message": "feat: caching layer\n\nSigned-off-by: Alice Dev <alice@example.com>",
+      "signoffs": ["Alice Dev <alice@example.com>"]
+    }
   ]
 }

@@ -54,7 +54,13 @@ function readJsonFile<T>(rootDir: string, path: string, what: string): T {
   }
 }
 
-function reportOutput(report: EvaluationReport, emitJson: boolean, text: string, markdown: string, exitCode: number): CommandOutput {
+function reportOutput(
+  report: EvaluationReport,
+  emitJson: boolean,
+  text: string,
+  markdown: string,
+  exitCode: number,
+): CommandOutput {
   return {
     text: emitJson ? `${text}\n${renderJson(report)}` : text,
     json: JSON.parse(renderJson(report)) as Record<string, unknown>,
@@ -127,13 +133,22 @@ export async function runCheck(opts: CheckOptions): Promise<CommandOutput> {
     }
 
     const report = evaluateContribution({
-      policy: { ...loaded.resolved, ...(opts.mode ? { enforcement: { ...loaded.resolved.enforcement, mode: opts.mode } } : {}) },
+      policy: {
+        ...loaded.resolved,
+        ...(opts.mode ? { enforcement: { ...loaded.resolved.enforcement, mode: opts.mode } } : {}),
+      },
       subject,
       evidence,
       options: { toolVersion: TOOL_VERSION },
     });
     const decision = gateDecision(report);
-    return reportOutput(report, opts.emitJson ?? false, renderText(report), renderMarkdown(report), decision.exitCode);
+    return reportOutput(
+      report,
+      opts.emitJson ?? false,
+      renderText(report),
+      renderMarkdown(report),
+      decision.exitCode,
+    );
   }
 
   // --- local (contribution file) ---------------------------------------

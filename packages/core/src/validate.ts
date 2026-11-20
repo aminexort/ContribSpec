@@ -16,22 +16,9 @@ import { parseYamlSafely } from './yaml.js';
 
 /** Object keys that may appear at each level (mirrors the JSON Schema). */
 const KNOWN_KEYS: Record<string, string[]> = {
-  root: [
-    '$schema',
-    'version',
-    'project',
-    'contributions',
-    'enforcement',
-    'metadata',
-  ],
+  root: ['$schema', 'version', 'project', 'contributions', 'enforcement', 'metadata'],
   project: ['name', 'description', 'repository', 'homepage'],
-  contributions: [
-    'pull_requests',
-    'ai_assistance',
-    'accountability',
-    'verification',
-    'compliance',
-  ],
+  contributions: ['pull_requests', 'ai_assistance', 'accountability', 'verification', 'compliance'],
   pull_requests: [
     'issue_reference',
     'max_changed_files',
@@ -78,11 +65,7 @@ export function editDistance(a: string, b: string): number {
     const cur = [i];
     for (let j = 1; j <= n; j += 1) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      cur[j] = Math.min(
-        (prev[j] ?? 0) + 1,
-        (cur[j - 1] ?? 0) + 1,
-        (prev[j - 1] ?? 0) + cost,
-      );
+      cur[j] = Math.min((prev[j] ?? 0) + 1, (cur[j - 1] ?? 0) + 1, (prev[j - 1] ?? 0) + cost);
     }
     prev = cur;
   }
@@ -137,7 +120,8 @@ function findUnknownKeys(value: unknown, level: string, path: string, out: KeyIs
     const childLevel =
       key === 'severity_overrides'
         ? 'severity_overrides'
-        : (NESTED_KEY_MAP[key] ?? (key === 'required_checks' ? 'verification.required_checks' : level));
+        : (NESTED_KEY_MAP[key] ??
+          (key === 'required_checks' ? 'verification.required_checks' : level));
     findUnknownKeys(child, childLevel, childPath, out);
   }
 }
@@ -220,7 +204,6 @@ function semanticDiagnostics(doc: PolicyDocument): Diagnostic[] {
   const pr = doc.contributions?.pull_requests;
   if (pr?.title_pattern !== undefined) {
     try {
-      // eslint-disable-next-line no-new
       new RegExp(pr.title_pattern);
     } catch (err) {
       out.push({
@@ -253,7 +236,10 @@ function semanticDiagnostics(doc: PolicyDocument): Diagnostic[] {
   }
 
   const ai = doc.contributions?.ai_assistance;
-  if (ai?.policy === 'allow_with_disclosure' && (!ai.disclosure_locations || ai.disclosure_locations.length === 0)) {
+  if (
+    ai?.policy === 'allow_with_disclosure' &&
+    (!ai.disclosure_locations || ai.disclosure_locations.length === 0)
+  ) {
     out.push({
       code: 'SEM-CONTRADICTION',
       path: 'contributions.ai_assistance.disclosure_locations',
@@ -282,7 +268,10 @@ function semanticDiagnostics(doc: PolicyDocument): Diagnostic[] {
   }
 
   const acc = doc.contributions?.accountability;
-  if (ai?.policy === 'require_human_verification' && acc?.human_understanding_attestation === 'not_required') {
+  if (
+    ai?.policy === 'require_human_verification' &&
+    acc?.human_understanding_attestation === 'not_required'
+  ) {
     out.push({
       code: 'SEM-CONTRADICTION',
       path: 'contributions.accountability.human_understanding_attestation',

@@ -1,0 +1,23 @@
+# Enforcing: required-rule violations fail the check (pair with a ruleset
+# requiring "ContribSpec verification" before merging).
+name: ContribSpec (enforce)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  contribspec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluate contribution policy
+        uses: YOUR_ORG/contribspec/packages/github-action@v0.1.0 # TODO(release): pin to commit SHA
+        with:
+          policy-path: contribspec.yml
+          mode: enforce
+          token: ${{ github.token }}

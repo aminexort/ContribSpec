@@ -15,7 +15,11 @@ export interface CommandOutput {
   exitCode: number;
 }
 
-export function emit(format: OutputFormat, output: CommandOutput, stdout: (s: string) => void): number {
+export function emit(
+  format: OutputFormat,
+  output: CommandOutput,
+  stdout: (s: string) => void,
+): number {
   switch (format) {
     case 'json':
       stdout(`${JSON.stringify(output.json, null, 2)}\n`);

@@ -1,0 +1,19 @@
+{
+  "provider": "github",
+  "repository": "acme/demo",
+  "number": 42,
+  "title": "Add caching layer",
+  "body": "This adds a small caching layer.\n\nAI tools: none used here? no - actually: tools: copilot\nScope: cache module only\nVerification: ran unit tests\n\nI take responsibility for this change and I understand the change.\n\nFixes #123",
+  "author": "alice",
+  "headSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "baseSha": "cccccccccccccccccccccccccccccccccccccccc",
+  "changedFiles": 3,
+  "changedLines": 120,
+  "commits": [
+    {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "message": "feat: caching layer\n\nSigned-off-by: Alice Dev <alice@example.com>",
+      "signoffs": ["Alice Dev <alice@example.com>"]
+    }
+  ]
+}

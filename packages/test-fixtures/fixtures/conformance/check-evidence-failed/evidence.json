@@ -1,3 +1,9 @@
 [
-  { "kind": "check_run", "source": "github-check-run", "name": "unit-tests", "subjectSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "status": "fail" }
+  {
+    "kind": "check_run",
+    "source": "github-check-run",
+    "name": "unit-tests",
+    "subjectSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "status": "fail"
+  }
 ]

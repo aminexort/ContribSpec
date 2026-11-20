@@ -33,11 +33,7 @@ export {
   type LoadResult,
   type ResolveOptions,
 } from './load.js';
-export {
-  evaluateContribution,
-  type EvaluationInput,
-  type EvaluationOptions,
-} from './evaluate.js';
+export { evaluateContribution, type EvaluationInput, type EvaluationOptions } from './evaluate.js';
 export {
   renderJson,
   renderText,

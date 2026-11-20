@@ -67,7 +67,9 @@ export function checkRunToEvidence(run: RawCheckRun, fallbackSha: string): Evide
     name: run.name,
     subjectSha: run.head_sha || fallbackSha,
     status: normalizeCheckConclusion(run.status, run.conclusion),
-    ...(run.completed_at ?? run.started_at ? { collectedAt: run.completed_at ?? run.started_at } : {}),
+    ...((run.completed_at ?? run.started_at)
+      ? { collectedAt: run.completed_at ?? run.started_at }
+      : {}),
     ...(run.output?.title || run.output?.summary
       ? { summary: `${run.output.title ?? ''} ${run.output.summary ?? ''}`.trim() }
       : {}),
@@ -130,7 +132,8 @@ export interface RawTestResults {
 
 /** Normalizes aggregated test-run results (e.g. from a CI summary artifact). */
 export function testResultsToEvidence(results: RawTestResults): Evidence {
-  const status: Evidence['status'] = results.failed > 0 ? 'fail' : results.passed > 0 ? 'pass' : 'unknown';
+  const status: Evidence['status'] =
+    results.failed > 0 ? 'fail' : results.passed > 0 ? 'pass' : 'unknown';
   return {
     kind: 'test_results',
     source: 'test-results',

@@ -3,4 +3,4 @@ project:
   name: bad-regex
 contributions:
   pull_requests:
-    title_pattern: "([unclosed"
+    title_pattern: '([unclosed'

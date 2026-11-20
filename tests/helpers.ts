@@ -74,13 +74,15 @@ export function b64(text: string): string {
 }
 
 /** GitHub API routes that describe one healthy pull request. */
-export function healthyPullRequestRoutes(overrides: {
-  policyText?: string;
-  checkRuns?: unknown[];
-  statuses?: unknown[];
-  prBody?: string;
-  commits?: unknown[];
-} = {}): FakeRoute[] {
+export function healthyPullRequestRoutes(
+  overrides: {
+    policyText?: string;
+    checkRuns?: unknown[];
+    statuses?: unknown[];
+    prBody?: string;
+    commits?: unknown[];
+  } = {},
+): FakeRoute[] {
   const policyText = overrides.policyText ?? T.policy;
   return [
     {

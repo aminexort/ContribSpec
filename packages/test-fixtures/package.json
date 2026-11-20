@@ -12,6 +12,11 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist", "fixtures"],
-  "engines": { "node": ">=20.11" }
+  "files": [
+    "dist",
+    "fixtures"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  }
 }

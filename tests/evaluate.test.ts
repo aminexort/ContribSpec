@@ -133,7 +133,9 @@ test('enforcement.missing_evidence: fail escalates unverified to fail', () => {
 });
 
 test('requirement level "encouraged" caps violations at notice severity', () => {
-  const policy = resolve('version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    issue_reference: encouraged\n');
+  const policy = resolve(
+    'version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    issue_reference: encouraged\n',
+  );
   const report = evaluateContribution({
     policy,
     subject: subject(),
@@ -147,7 +149,9 @@ test('requirement level "encouraged" caps violations at notice severity', () => 
 });
 
 test('requirement level "required" keeps error severity', () => {
-  const policy = resolve('version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    issue_reference: required\n');
+  const policy = resolve(
+    'version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    issue_reference: required\n',
+  );
   const report = evaluateContribution({
     policy,
     subject: subject(),
@@ -203,7 +207,9 @@ test('severity overrides change the effective severity and "off" disables a rule
 });
 
 test('AI prohibit policy fails on a disclosure and passes on a no-AI claim', () => {
-  const policy = resolve('version: 1\nproject:\n  name: demo\ncontributions:\n  ai_assistance:\n    policy: prohibit\n');
+  const policy = resolve(
+    'version: 1\nproject:\n  name: demo\ncontributions:\n  ai_assistance:\n    policy: prohibit\n',
+  );
   const withDisclosure = evaluateContribution({
     policy,
     subject: subject({ body: 'This was generated with ChatGPT.' }),
@@ -270,12 +276,16 @@ test('require_human_verification forces accountability requirements', () => {
 });
 
 test('DCO evaluation uses commit trailers; DCO evidence is a fallback', () => {
-  const policy = resolve('version: 1\nproject:\n  name: demo\ncontributions:\n  compliance:\n    dco: required\n');
+  const policy = resolve(
+    'version: 1\nproject:\n  name: demo\ncontributions:\n  compliance:\n    dco: required\n',
+  );
 
   const signed = evaluateContribution({
     policy,
     subject: subject({
-      commits: [{ sha: SHA, message: 'feat: x\n\nSigned-off-by: A <a@b.c>', signoffs: ['A <a@b.c>'] }],
+      commits: [
+        { sha: SHA, message: 'feat: x\n\nSigned-off-by: A <a@b.c>', signoffs: ['A <a@b.c>'] },
+      ],
     }),
     evidence: [],
     options: { generatedAt: '2025-01-01T00:00:00Z' },
@@ -328,7 +338,9 @@ test('gate decisions respect enforcement mode', () => {
 
 test('missing policy fields produce data for report consumers', () => {
   const report = evaluateContribution({
-    policy: resolve('version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    max_changed_files: 5\n'),
+    policy: resolve(
+      'version: 1\nproject:\n  name: demo\ncontributions:\n  pull_requests:\n    max_changed_files: 5\n',
+    ),
     subject: subject({ changedFiles: undefined }),
     evidence: [],
     options: { generatedAt: '2025-01-01T00:00:00Z' },

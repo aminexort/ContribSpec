@@ -18,7 +18,13 @@ import { join } from 'node:path';
 import { evaluateContribution } from './evaluate.js';
 import { loadPolicyText } from './load.js';
 import { isFile, resolveWithin } from './paths.js';
-import type { ContributionSubject, EvaluationReport, Evidence, FindingStatus, OverallResult } from './types.js';
+import type {
+  ContributionSubject,
+  EvaluationReport,
+  Evidence,
+  FindingStatus,
+  OverallResult,
+} from './types.js';
 
 export interface ConformanceExpectation {
   result?: OverallResult;
@@ -51,7 +57,9 @@ function readJson<T>(path: string, what: string): T {
   try {
     return JSON.parse(readFileSync(path, 'utf8')) as T;
   } catch (err) {
-    throw new ConformanceFormatError(`${what} (${path}) is not valid JSON: ${(err as Error).message}`);
+    throw new ConformanceFormatError(
+      `${what} (${path}) is not valid JSON: ${(err as Error).message}`,
+    );
   }
 }
 
@@ -88,7 +96,10 @@ export function loadConformanceCases(rootDir: string): ConformanceCase[] {
 /** Runs one conformance case. Never throws for evaluation problems. */
 export function runConformanceCase(testCase: ConformanceCase): ConformanceCaseResult {
   const failures: string[] = [];
-  const loaded = loadPolicyText(testCase.policyText, { path: `${testCase.name}/policy.yml`, source: 'conformance' });
+  const loaded = loadPolicyText(testCase.policyText, {
+    path: `${testCase.name}/policy.yml`,
+    source: 'conformance',
+  });
   if (!loaded.resolved) {
     return {
       name: testCase.name,
@@ -106,8 +117,13 @@ export function runConformanceCase(testCase: ConformanceCase): ConformanceCaseRe
     options: { generatedAt: '1970-01-01T00:00:00.000Z', toolVersion: 'conformance' },
   });
 
-  if (testCase.expected.result !== undefined && report.summary.result !== testCase.expected.result) {
-    failures.push(`expected overall result "${testCase.expected.result}", got "${report.summary.result}"`);
+  if (
+    testCase.expected.result !== undefined &&
+    report.summary.result !== testCase.expected.result
+  ) {
+    failures.push(
+      `expected overall result "${testCase.expected.result}", got "${report.summary.result}"`,
+    );
   }
 
   for (const expectation of testCase.expected.findings ?? []) {

@@ -13,8 +13,13 @@
     },
     "./schema/contribspec-policy-v1.schema.json": "./schema/contribspec-policy-v1.schema.json"
   },
-  "files": ["dist", "schema"],
-  "engines": { "node": ">=20.11" },
+  "files": [
+    "dist",
+    "schema"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
     "build": "tsc -b tsconfig.json"
   }

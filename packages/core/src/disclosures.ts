@@ -77,7 +77,9 @@ function extractFields(text: string): Partial<Record<DisclosureField, string>> {
  */
 export function classifyStatement(
   text: string,
-): { kind: 'affirmative' | 'negative'; fields: Partial<Record<DisclosureField, string>> } | undefined {
+):
+  | { kind: 'affirmative' | 'negative'; fields: Partial<Record<DisclosureField, string>> }
+  | undefined {
   const strong = STRONG_AFFIRMATIVE_PATTERNS.some((p) => p.test(text));
   const negative = NEGATIVE_PATTERNS.some((p) => p.test(text));
   const weak = AFFIRMATIVE_PATTERNS.some((p) => p.test(text));
@@ -111,10 +113,7 @@ const AI_TRAILER_NAMES = new Set([
  * trailers. Only the channels listed here are searched; a statement found
  * elsewhere is not counted (documented in docs/SPECIFICATION.md §6).
  */
-export function collectDisclosures(
-  body: string,
-  commits: CommitInfo[] | undefined,
-): Disclosure[] {
+export function collectDisclosures(body: string, commits: CommitInfo[] | undefined): Disclosure[] {
   const out: Disclosure[] = [];
 
   const cleanBody = sanitizeText(body);

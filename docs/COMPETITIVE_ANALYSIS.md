@@ -10,8 +10,8 @@ ContribSpec is a **vendor-neutral, machine-readable standard and toolchain for d
 validating, and enforcing open-source contribution policies**, with a focus on evidence
 verification rather than authorship detection.
 
-The question this analysis answers: *does the ecosystem already provide this, and if so where
-does ContribSpec add unique value?*
+The question this analysis answers: _does the ecosystem already provide this, and if so where
+does ContribSpec add unique value?_
 
 ## 2. Landscape
 
@@ -19,12 +19,12 @@ does ContribSpec add unique value?*
 
 Projects increasingly publish prose policies for AI-assisted contributions:
 
-| Project / artifact | What it does | Format | Enforcement |
-| --- | --- | --- | --- |
-| `nodejs/node` `doc/contributing/ai-guidelines.md` | Disclosure expectations for AI-assisted contributions, DCO still applies | Markdown | Human review |
-| `modelcontextprotocol` `AI_POLICY.md` | Mandatory disclosure of any AI assistance plus human-understanding expectations | Markdown | Human review |
-| `apache/fory` `AI_POLICY.md` | Disclosure, provenance confirmation, evidence of validation, structured AI review loop | Markdown | Human review + CI conventions |
-| `hermetoproject/hermeto` `AI_CONTRIBUTION_POLICY.md` | Mandatory disclosure via commit trailers | Markdown | CI + resubmission |
+| Project / artifact                                   | What it does                                                                           | Format   | Enforcement                   |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------- | -------- | ----------------------------- |
+| `nodejs/node` `doc/contributing/ai-guidelines.md`    | Disclosure expectations for AI-assisted contributions, DCO still applies               | Markdown | Human review                  |
+| `modelcontextprotocol` `AI_POLICY.md`                | Mandatory disclosure of any AI assistance plus human-understanding expectations        | Markdown | Human review                  |
+| `apache/fory` `AI_POLICY.md`                         | Disclosure, provenance confirmation, evidence of validation, structured AI review loop | Markdown | Human review + CI conventions |
+| `hermetoproject/hermeto` `AI_CONTRIBUTION_POLICY.md` | Mandatory disclosure via commit trailers                                               | Markdown | CI + resubmission             |
 
 **Limitations:** every one of these is prose. There is no machine-readable contract, no
 validator, no portable tooling, and no way for a forge integration or AI coding agent to
@@ -34,7 +34,7 @@ enforcement.
 ### 2.2 Catalogs of policies
 
 - `melissawm/open-source-ai-contribution-policies` (the widely referenced
-  *awesome-ai-contribution-policies* list) — a comparative table of project policies
+  _awesome-ai-contribution-policies_ list) — a comparative table of project policies
   (allowed? disclosure? copyright statement? human in the loop?).
 - Related datasets/dumps (e.g. `sujeito-operator/ai-contribution-policy`,
   `jrjsmrtn/ai-contribution-policies`) screen large numbers of repositories for written
@@ -46,26 +46,26 @@ a general guide"; there is no authoritative machine-readable policy behind the t
 
 ### 2.3 Machine-readable disclosure / declaration formats
 
-| Project | Artifact | Focus | Limitations |
-| --- | --- | --- | --- |
-| `Declare-AI/declare-ai` | `declare-ai.json` | Disclosure "nutrition label" for arbitrary web *content* (widget, extension, portal) | Content provenance, not contribution governance; hosted service oriented |
-| `ai-declaration.org` (`aidecl`) | `aidecl.yaml` | Declares which AI tools a *project* used; CI validation of the declaration | Project-level disclosure, not per-contribution policy or evidence |
-| `Rubiss/art50-ci` | `.art50-ci.yml` | CI checks for AI-transparency controls and C2PA provenance on delivered pages | UI/regression testing of disclosure surfaces, not contribution policy |
+| Project                                 | Artifact                             | Focus                                                                                                                | Limitations                                                                                      |
+| --------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `Declare-AI/declare-ai`                 | `declare-ai.json`                    | Disclosure "nutrition label" for arbitrary web _content_ (widget, extension, portal)                                 | Content provenance, not contribution governance; hosted service oriented                         |
+| `ai-declaration.org` (`aidecl`)         | `aidecl.yaml`                        | Declares which AI tools a _project_ used; CI validation of the declaration                                           | Project-level disclosure, not per-contribution policy or evidence                                |
+| `Rubiss/art50-ci`                       | `.art50-ci.yml`                      | CI checks for AI-transparency controls and C2PA provenance on delivered pages                                        | UI/regression testing of disclosure surfaces, not contribution policy                            |
 | `ecogetaway/oss-ai-contribution-policy` | `ai-contribution-policy.yml` (draft) | Per-asset-class stance (code/docs/translations/media), disclosure channel, attestations, non-disclosure consequences | Draft format; no published validator, conformance suite, evidence layer or forge integration yet |
 
 **Overlap with ContribSpec:** `ecogetaway/oss-ai-contribution-policy` and `aidecl` overlap on the
-idea of a YAML policy/declaration file. ContribSpec overlaps on *shape*, not on *function*.
+idea of a YAML policy/declaration file. ContribSpec overlaps on _shape_, not on _function_.
 
 ### 2.4 Signed provenance and evidence containers
 
-| Project | Artifact | Focus | Limitations |
-| --- | --- | --- | --- |
-| `augbastos/scpe` | `SPEC.md` (`scpe/0.1`) | Portable, cryptographically signed *evidence container* for one contribution (diff subject, forge identity, AI disclosure, typed attestations) verified offline via SSH keys | Per-contribution artifact; says nothing about what a *repository requires* |
-| `openoctp/spec` | `OCTP-v0.1` | Provenance-vs-verification envelope bound to a commit | Envelope format; no policy layer, no forge integration |
-| `tarnover/TrustVer` | `TRUSTVER_SPEC` | Trust/verification spec with per-commit provenance arrays | Specification-only |
+| Project             | Artifact               | Focus                                                                                                                                                                        | Limitations                                                                |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `augbastos/scpe`    | `SPEC.md` (`scpe/0.1`) | Portable, cryptographically signed _evidence container_ for one contribution (diff subject, forge identity, AI disclosure, typed attestations) verified offline via SSH keys | Per-contribution artifact; says nothing about what a _repository requires_ |
+| `openoctp/spec`     | `OCTP-v0.1`            | Provenance-vs-verification envelope bound to a commit                                                                                                                        | Envelope format; no policy layer, no forge integration                     |
+| `tarnover/TrustVer` | `TRUSTVER_SPEC`        | Trust/verification spec with per-commit provenance arrays                                                                                                                    | Specification-only                                                         |
 
 **Interoperability opportunity:** these projects produce exactly the kind of **evidence** that
-ContribSpec should *consume*, not re-implement. ContribSpec's evidence model is designed so a
+ContribSpec should _consume_, not re-implement. ContribSpec's evidence model is designed so a
 signed attestation or an SCPE manifest is one evidence `kind` among many.
 
 ### 2.5 Legal / origin compliance tooling
@@ -85,7 +85,7 @@ and know nothing about the rest of a project's contribution requirements.
   Code-Review, Dangerous-Workflow, Pinned-Dependencies, Token-Permissions, Vulnerabilities,
   …) producing a project security-posture score.
 
-**Limitations:** Scorecard measures *repository hygiene*, not *contribution requirements*. It
+**Limitations:** Scorecard measures _repository hygiene_, not _contribution requirements_. It
 does not evaluate an individual pull request against a declared contribution policy, and it
 does not normalize per-contribution evidence.
 
@@ -97,24 +97,24 @@ does not normalize per-contribution evidence.
   GitHub Apps (including the `GITHUB_TOKEN` in Actions when granted) but not to plain OAuth
   tokens or user PATs.
 
-**Limitations:** rulesets enforce *that* a check ran, not *what it means*. Nothing ties a set of
+**Limitations:** rulesets enforce _that_ a check ran, not _what it means_. Nothing ties a set of
 checks to a declared, versioned policy with explainable semantics.
 
 ## 3. Feature overlap matrix
 
-| Capability | Prose AI policies | awesome list | declared-ai / aidecl | SCPE / OCTP | DCO/CLA bots | Scorecard | GitHub rulesets | **ContribSpec** |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Machine-readable contribution policy | – | – | partial | – | – | – | – | **yes** |
-| Strict schema + validator + actionable errors | – | – | partial | – | – | – | – | **yes** |
-| Per-requirement rule IDs and severities | – | – | – | – | – | – | – | **yes** |
-| Evaluate a specific PR against policy | – | – | – | – | check only | – | gate only | **yes** |
-| Normalized evidence layer (checks, statuses, DCO, CLA, tests, attestations) | – | – | – | container only | single kind | – | – | **yes** |
-| Distinguishes **missing** vs **failed** evidence | – | – | – | – | – | – | – | **yes** |
-| Structured verification report (JSON, versioned) | – | – | – | – | – | – | – | **yes** |
-| Human-readable explanation of requirements | prose | – | – | – | – | – | – | **yes** (`explain`) |
-| Conformance test suite for policies | – | – | – | – | – | – | – | **yes** |
-| Forge-neutral core (GitHub, GitLab, Forgejo) | – | – | – | key lookup | GitHub-focused | GitHub/limited | GitHub | **yes** |
-| Trust model: policy from base commit, never from PR | – | – | – | – | n/a | n/a | n/a | **yes** |
+| Capability                                                                  | Prose AI policies | awesome list | declared-ai / aidecl | SCPE / OCTP    | DCO/CLA bots   | Scorecard      | GitHub rulesets | **ContribSpec**     |
+| --------------------------------------------------------------------------- | ----------------- | ------------ | -------------------- | -------------- | -------------- | -------------- | --------------- | ------------------- |
+| Machine-readable contribution policy                                        | –                 | –            | partial              | –              | –              | –              | –               | **yes**             |
+| Strict schema + validator + actionable errors                               | –                 | –            | partial              | –              | –              | –              | –               | **yes**             |
+| Per-requirement rule IDs and severities                                     | –                 | –            | –                    | –              | –              | –              | –               | **yes**             |
+| Evaluate a specific PR against policy                                       | –                 | –            | –                    | –              | check only     | –              | gate only       | **yes**             |
+| Normalized evidence layer (checks, statuses, DCO, CLA, tests, attestations) | –                 | –            | –                    | container only | single kind    | –              | –               | **yes**             |
+| Distinguishes **missing** vs **failed** evidence                            | –                 | –            | –                    | –              | –              | –              | –               | **yes**             |
+| Structured verification report (JSON, versioned)                            | –                 | –            | –                    | –              | –              | –              | –               | **yes**             |
+| Human-readable explanation of requirements                                  | prose             | –            | –                    | –              | –              | –              | –               | **yes** (`explain`) |
+| Conformance test suite for policies                                         | –                 | –            | –                    | –              | –              | –              | –               | **yes**             |
+| Forge-neutral core (GitHub, GitLab, Forgejo)                                | –                 | –            | –                    | key lookup     | GitHub-focused | GitHub/limited | GitHub          | **yes**             |
+| Trust model: policy from base commit, never from PR                         | –                 | –            | –                    | –              | n/a            | n/a            | n/a             | **yes**             |
 
 ## 4. Unsolved / poorly addressed needs
 
@@ -131,7 +131,7 @@ checks to a declared, versioned policy with explainable semantics.
    Forgejo; policy text does not transfer at all.
 5. **No conformance story.** A policy file has no way to prove it behaves as maintainers expect.
 6. **Detection dead-ends.** Several initiatives orbit "was this written by AI?" — an
-   undecidable question from code appearance. Needs center on *requirements and evidence*.
+   undecidable question from code appearance. Needs center on _requirements and evidence_.
 
 ## 5. Differentiation and scope decision
 
@@ -139,7 +139,7 @@ Research confirms a viable, differentiated scope. ContribSpec's charter:
 
 1. **Policy-first:** a versioned YAML policy with a published JSON Schema, strict validation,
    unknown-key detection, documented defaults, and a backward-compatibility promise.
-2. **Evidence, not detection:** ContribSpec verifies declared *requirements and their evidence*.
+2. **Evidence, not detection:** ContribSpec verifies declared _requirements and their evidence_.
    It deliberately does not attempt AI-content detection, and it treats self-attestation as a
    record of a claim — never as proof of authorship or understanding.
 3. **Normalization layer:** adapters turn external artifacts (GitHub check runs, commit

@@ -216,7 +216,12 @@ export interface ResolvedPolicy {
     humanUnderstandingAttestation: RequirementLevel;
   };
   verification: {
-    requiredChecks: { name: string; source: CheckSource; severity?: Severity; description?: string }[];
+    requiredChecks: {
+      name: string;
+      source: CheckSource;
+      severity?: Severity;
+      description?: string;
+    }[];
     requireHeadShaMatch: boolean;
   };
   compliance: {

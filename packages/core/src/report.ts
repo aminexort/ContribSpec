@@ -31,12 +31,15 @@ const RESULT_LABEL: Record<OverallResult, string> = {
 
 function findingLine(f: Finding): string {
   const dataEntries = Object.entries(f.data);
-  const dataText = dataEntries.length > 0 ? ` [${dataEntries.map(([k, v]) => `${k}=${v}`).join(' ')}]` : '';
-  return `  ${STATUS_LABEL[f.status].padEnd(15)} ${f.ruleId} ${f.title} (${f.severity})${dataText}\n` +
+  const dataText =
+    dataEntries.length > 0 ? ` [${dataEntries.map(([k, v]) => `${k}=${v}`).join(' ')}]` : '';
+  return (
+    `  ${STATUS_LABEL[f.status].padEnd(15)} ${f.ruleId} ${f.title} (${f.severity})${dataText}\n` +
     `      ${sanitizeInline(f.message, 500)}\n` +
     (f.status === 'fail' || f.status === 'missing_evidence'
       ? `      → ${sanitizeInline(f.remediation, 300)}\n`
-      : '');
+      : '')
+  );
 }
 
 /** Human-readable terminal output (plain text, no ANSI — safe for logs). */
@@ -49,7 +52,9 @@ export function renderText(report: EvaluationReport): string {
       (report.subject.number !== undefined ? ` #${report.subject.number}` : '') +
       ` @ ${report.subject.headSha.slice(0, 12)}`,
   );
-  lines.push(`Policy:  ${sanitizeInline(report.policy.path, 200)} (sha256:${report.policy.digest.slice(0, 12)}…)`);
+  lines.push(
+    `Policy:  ${sanitizeInline(report.policy.path, 200)} (sha256:${report.policy.digest.slice(0, 12)}…)`,
+  );
   lines.push(`Result:  ${RESULT_LABEL[s.result]} (mode: ${s.mode})`);
   lines.push(
     `Counts:  pass=${s.pass} fail=${s.fail} missing-evidence=${s.missingEvidence} ` +
@@ -93,7 +98,13 @@ export function renderMarkdown(report: EvaluationReport): string {
   const s = report.summary;
   const lines: string[] = [];
   const badge =
-    s.result === 'pass' ? '✅ pass' : s.result === 'fail' ? '❌ fail' : s.result === 'unverified' ? '⚠️ unverified' : '💥 error';
+    s.result === 'pass'
+      ? '✅ pass'
+      : s.result === 'fail'
+        ? '❌ fail'
+        : s.result === 'unverified'
+          ? '⚠️ unverified'
+          : '💥 error';
   lines.push(`### ContribSpec verification report — ${badge}`);
   lines.push('');
   lines.push(
@@ -121,19 +132,31 @@ export function renderMarkdown(report: EvaluationReport): string {
   lines.push('| --- | --- | --- | --- | --- |');
   for (const f of report.findings) {
     const icon =
-      f.status === 'pass' ? '✅ pass' : f.status === 'fail' ? '❌ fail' : f.status === 'missing_evidence' ? '⚠️ missing evidence' : f.status === 'not_applicable' ? '➖ n/a' : '💥 error';
+      f.status === 'pass'
+        ? '✅ pass'
+        : f.status === 'fail'
+          ? '❌ fail'
+          : f.status === 'missing_evidence'
+            ? '⚠️ missing evidence'
+            : f.status === 'not_applicable'
+              ? '➖ n/a'
+              : '💥 error';
     lines.push(
       `| ${icon} | \`${f.ruleId}\` | ${escapeMarkdown(f.title, 120)} | ${f.severity} | ${escapeMarkdown(f.message, 400)} |`,
     );
   }
   lines.push('');
 
-  const actionable = report.findings.filter((f) => f.status === 'fail' || f.status === 'missing_evidence');
+  const actionable = report.findings.filter(
+    (f) => f.status === 'fail' || f.status === 'missing_evidence',
+  );
   if (actionable.length > 0) {
     lines.push('#### How to proceed');
     lines.push('');
     for (const f of actionable) {
-      lines.push(`- **${f.ruleId}** (${STATUS_LABEL[f.status].toLowerCase()}): ${escapeMarkdown(f.remediation, 400)}`);
+      lines.push(
+        `- **${f.ruleId}** (${STATUS_LABEL[f.status].toLowerCase()}): ${escapeMarkdown(f.remediation, 400)}`,
+      );
     }
     lines.push('');
   }
@@ -194,7 +217,11 @@ export function gateDecision(report: EvaluationReport): GateDecision {
     };
   }
   if (mode === 'report') {
-    return { exitCode: 0, conclusion: 'success', rationale: 'Report-only mode: results are informational.' };
+    return {
+      exitCode: 0,
+      conclusion: 'success',
+      rationale: 'Report-only mode: results are informational.',
+    };
   }
   return {
     exitCode: 0,

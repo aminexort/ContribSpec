@@ -50,7 +50,9 @@ test('commit trailers are collected as disclosure locations', () => {
 });
 
 test('sign-off trailers are parsed', () => {
-  const signoffs = parseSignoffs('feat: x\n\nSigned-off-by: Alice <alice@example.com>\nSigned-off-by: Bob <bob@example.com>\n');
+  const signoffs = parseSignoffs(
+    'feat: x\n\nSigned-off-by: Alice <alice@example.com>\nSigned-off-by: Bob <bob@example.com>\n',
+  );
   assert.deepEqual(signoffs, ['Alice <alice@example.com>', 'Bob <bob@example.com>']);
 });
 

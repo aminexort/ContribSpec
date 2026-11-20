@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/contribspec/contribspec/security/advisories/new
+    about: Report security issues privately (see SECURITY.md)
+  - name: Questions and discussion
+    url: https://github.com/contribspec/contribspec/discussions
+    about: Ask questions or discuss ideas before filing an issue

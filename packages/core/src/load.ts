@@ -38,7 +38,11 @@ export interface ResolveOptions {
 }
 
 /** Applies documented defaults to a validated policy document. */
-export function resolvePolicy(doc: PolicyDocument, raw: string, opts: ResolveOptions): ResolvedPolicy {
+export function resolvePolicy(
+  doc: PolicyDocument,
+  raw: string,
+  opts: ResolveOptions,
+): ResolvedPolicy {
   const pr = doc.contributions?.pull_requests;
   const ai = doc.contributions?.ai_assistance;
   const acc = doc.contributions?.accountability;
@@ -55,19 +59,21 @@ export function resolvePolicy(doc: PolicyDocument, raw: string, opts: ResolveOpt
     }
   }
 
-  const checks = (ver?.required_checks ?? []).map((entry): ResolvedPolicy['verification']['requiredChecks'][number] => {
-    if (typeof entry === 'string') {
-      const check: RequiredCheck = { name: entry, source: 'any' };
-      return { name: check.name, source: 'any' };
-    }
-    const source: CheckSource = entry.source ?? 'any';
-    return {
-      name: entry.name,
-      source,
-      ...(entry.severity ? { severity: entry.severity as Severity } : {}),
-      ...(entry.description ? { description: entry.description } : {}),
-    };
-  });
+  const checks = (ver?.required_checks ?? []).map(
+    (entry): ResolvedPolicy['verification']['requiredChecks'][number] => {
+      if (typeof entry === 'string') {
+        const check: RequiredCheck = { name: entry, source: 'any' };
+        return { name: check.name, source: 'any' };
+      }
+      const source: CheckSource = entry.source ?? 'any';
+      return {
+        name: entry.name,
+        source,
+        ...(entry.severity ? { severity: entry.severity as Severity } : {}),
+        ...(entry.description ? { description: entry.description } : {}),
+      };
+    },
+  );
 
   return {
     document: doc,

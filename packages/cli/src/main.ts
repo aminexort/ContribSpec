@@ -15,7 +15,12 @@ import { runInit } from './commands/init.js';
 import { runValidate } from './commands/validate.js';
 import { runCheck } from './commands/check.js';
 import { runPolicyTest } from './commands/policy-test.js';
-import { explainPolicy, loadPolicyFile, PolicyNotFoundError, type ExplainFormat } from '@contribspec/core';
+import {
+  explainPolicy,
+  loadPolicyFile,
+  PolicyNotFoundError,
+  type ExplainFormat,
+} from '@contribspec/core';
 import { PROFILE_IDS, type ProfileId } from './profiles.js';
 import { TOOL_VERSION } from './version.js';
 
@@ -158,7 +163,8 @@ async function run(): Promise<number> {
         );
         return 1;
       }
-      const explainFormat: ExplainFormat = format === 'json' ? 'json' : format === 'markdown' ? 'markdown' : 'text';
+      const explainFormat: ExplainFormat =
+        format === 'json' ? 'json' : format === 'markdown' ? 'markdown' : 'text';
       process.stdout.write(explainPolicy(loaded.resolved, explainFormat));
       return 0;
     }

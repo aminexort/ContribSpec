@@ -14,11 +14,7 @@ import type {
   ForgeProvider,
 } from '@contribspec/core';
 import { parseSignoffs, sanitizeInline, sanitizeText } from '@contribspec/core';
-import {
-  GitHubClient,
-  numberField,
-  type GitHubClientOptions,
-} from './client.js';
+import { GitHubClient, numberField, type GitHubClientOptions } from './client.js';
 import {
   checkRunToEvidence,
   commitsToDcoEvidence,
@@ -41,7 +37,9 @@ export interface GitHubProviderOptions extends GitHubClientOptions {
 type Json = Record<string, unknown>;
 
 function asArray(value: unknown): Json[] {
-  return Array.isArray(value) ? value.filter((v): v is Json => typeof v === 'object' && v !== null) : [];
+  return Array.isArray(value)
+    ? value.filter((v): v is Json => typeof v === 'object' && v !== null)
+    : [];
 }
 
 export class GitHubProvider implements ForgeProvider, CheckRunPublisher {
@@ -175,18 +173,21 @@ export class GitHubProvider implements ForgeProvider, CheckRunPublisher {
     conclusion: 'success' | 'failure' | 'action_required';
     detailsUrl?: string;
   }): Promise<boolean> {
-    const result = await this.client.postJsonOptional(`/repos/${this.owner}/${this.repo}/check-runs`, {
-      name: input.name.slice(0, 100),
-      head_sha: input.sha,
-      status: 'completed',
-      conclusion: input.conclusion,
-      output: {
-        title: input.title.slice(0, 255),
-        // GitHub caps check-run summaries at 65535 characters.
-        summary: input.summary.slice(0, 65_000),
+    const result = await this.client.postJsonOptional(
+      `/repos/${this.owner}/${this.repo}/check-runs`,
+      {
+        name: input.name.slice(0, 100),
+        head_sha: input.sha,
+        status: 'completed',
+        conclusion: input.conclusion,
+        output: {
+          title: input.title.slice(0, 255),
+          // GitHub caps check-run summaries at 65535 characters.
+          summary: input.summary.slice(0, 65_000),
+        },
+        ...(input.detailsUrl ? { details_url: input.detailsUrl } : {}),
       },
-      ...(input.detailsUrl ? { details_url: input.detailsUrl } : {}),
-    });
+    );
     return result.ok;
   }
 }
@@ -194,8 +195,16 @@ export class GitHubProvider implements ForgeProvider, CheckRunPublisher {
 /** Parses "owner/repo" into its parts. */
 export function splitRepository(repository: string): { owner: string; repo: string } {
   const parts = repository.split('/');
-  if (parts.length !== 2 || !parts[0] || !parts[1] || !/^[A-Za-z0-9._-]+$/.test(parts[0]) || !/^[A-Za-z0-9._-]+$/.test(parts[1])) {
-    throw new Error(`Invalid repository identifier: ${sanitizeInline(repository, 100)} (expected "owner/repo")`);
+  if (
+    parts.length !== 2 ||
+    !parts[0] ||
+    !parts[1] ||
+    !/^[A-Za-z0-9._-]+$/.test(parts[0]) ||
+    !/^[A-Za-z0-9._-]+$/.test(parts[1])
+  ) {
+    throw new Error(
+      `Invalid repository identifier: ${sanitizeInline(repository, 100)} (expected "owner/repo")`,
+    );
   }
   return { owner: parts[0], repo: parts[1] };
 }
