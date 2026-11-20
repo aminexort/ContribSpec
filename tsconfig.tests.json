@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist-tests",
+    "types": ["node"]
+  },
+  "include": ["tests/**/*.ts"],
+  "references": [
+    { "path": "packages/schema" },
+    { "path": "packages/core" },
+    { "path": "packages/integrations" },
+    { "path": "packages/cli" },
+    { "path": "packages/github-action" },
+    { "path": "packages/test-fixtures" }
+  ]
+}

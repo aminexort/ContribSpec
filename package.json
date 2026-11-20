@@ -1,0 +1,33 @@
+{
+  "name": "contribspec-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ContribSpec — vendor-neutral standard and toolchain for open source contribution policies",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json && node scripts/build-action.mjs",
+    "clean": "tsc -b tsconfig.build.json --clean && rimraf-none || true",
+    "typecheck": "tsc -b tsconfig.build.json --pretty",
+    "test": "npm run build && node --test dist-tests/tests",
+    "test:unit": "npm run build && node --test dist-tests/tests",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0"
+  }
+}
